@@ -17,6 +17,9 @@ val OffWhite = Color(0xFFfefae0)
 val OffBrown = Color(0xFFfaedcd)
 val Brown = Color(0xFFd4a373)
 
+val textColor = Color(0xFFCCC7C7)
+val lightText = Color(0xFF3f68a8)
+val appBackground = Color(0xFF424344)
 
 val PrimaryBlue = Color(0xFF03045e)
 val PrimeSecBlue = Color(0xFF023e8a)

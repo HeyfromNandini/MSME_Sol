@@ -1,4 +1,4 @@
-package project.app.msmesol.screens.signup
+package project.app.msmesol.presentation.screens.signup
 
 import android.content.Context
 import android.net.Uri

@@ -1,4 +1,4 @@
-package project.app.msmesol.bottombar
+package project.app.msmesol.presentation.bottombar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import project.app.msmesol.navigation.Screens
+import project.app.msmesol.presentation.navigation.Screens
 
 @Composable
 fun BottomBarUI(
