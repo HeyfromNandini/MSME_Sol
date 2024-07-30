@@ -1,4 +1,4 @@
-package project.app.msmesol.screens
+package project.app.msmesol.screens.homescreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -7,6 +7,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,17 +16,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddShoppingCart
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,8 +43,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.DarkGray
-import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -54,37 +52,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import project.app.msmesol.R
-import project.app.msmesol.bottombar.items
-import project.app.msmesol.screens.signup.OutlinedTextFieldBox
-import java.text.Bidi
 
 @Composable
-fun HomeScreen(navHostController: NavHostController) {
+fun HomeScreen(paddingValues: PaddingValues, navHostController: NavHostController) {
 
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(paddingValues)
     ) {
-        item {
+
+        Column (modifier = Modifier.verticalScroll(rememberScrollState())){
 
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp, vertical = 20.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.AddShoppingCart,
-                    contentDescription = "",
-                    modifier = Modifier.size(30.dp)
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(text = "Xpress", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-
-            }
+            AppName()
 
 
 
@@ -96,6 +78,7 @@ fun HomeScreen(navHostController: NavHostController) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(start = 10.dp)
                     .horizontalScroll(rememberScrollState())
             ) {
 
@@ -104,14 +87,12 @@ fun HomeScreen(navHostController: NavHostController) {
             }
 
             RowHeadings(text1 = "Product", text2 = "Explore all")
+           ProductGrid()
+
+
+
+
         }
-
-        item {
-
-            GridExample()
-        }
-
-
     }
 }
 
@@ -237,9 +218,10 @@ fun BidCards(image: Int, text: String) {
 
         Card(
             modifier = Modifier
-                .width(200.dp)
-                .height(250.dp)
-                .padding(horizontal = 15.dp, vertical = 10.dp)
+                .width(190.dp)
+
+                .padding(horizontal = 5.dp, vertical = 10.dp)
+
         ) {
             Column(
                 modifier = Modifier
@@ -291,7 +273,7 @@ fun BidCards(image: Int, text: String) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GridExample() {
+fun ProductGrid() {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2), // Adjust the number of columns as needed
         modifier = Modifier
@@ -300,26 +282,56 @@ fun GridExample() {
     ) {
         items(8) { index ->
 
-            Card (  modifier = Modifier
-                .padding(8.dp)
-
-                .fillMaxSize()){
+            Card(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxSize()
+            ) {
 
 
                 Box(
                     modifier = Modifier
-                        .padding(8.dp)
-
+                        .padding(horizontal = 8.dp)
                         .fillMaxSize()
                 ) {
-                    Text(
-                        text = "Item ",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = White,
-                        modifier = Modifier.padding(16.dp)
-                    )
+                    Row(
+                        modifier = Modifier.padding(horizontal = 5.dp),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(imageVector = Icons.Default.Image, contentDescription = "")
+                        Text(
+                            text = "Item ", fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = White,
+                            modifier = Modifier.padding(20.dp)
+                        )
+                    }
                 }
             }
         }
+    }
+}
+
+
+@Composable
+fun AppName() {
+
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp, vertical = 20.dp),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = Icons.Default.AddShoppingCart,
+            contentDescription = "",
+            modifier = Modifier.size(30.dp)
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(text = "Xpress", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+
     }
 }

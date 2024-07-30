@@ -6,7 +6,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import project.app.msmesol.screens.HomeScreen
+import project.app.msmesol.screens.homescreen.HomeScreen
+import project.app.msmesol.screens.homescreen.ItemScreen
 import project.app.msmesol.screens.marketplace.MarketPlace
 import project.app.msmesol.screens.onboarding.Screen1
 import project.app.msmesol.screens.onboarding.Screen2
@@ -27,7 +28,7 @@ fun MainNavController(
     NavHost(
         navController = navController,
 //        startDestination = Screens.SplashScreen.route,
-        startDestination = Screens.HomeScreen.route,
+        startDestination = Screens.ItemScreen.route,
     ) {
 
         composable(Screens.SplashScreen.route) {
@@ -60,8 +61,12 @@ fun MainNavController(
 
 
         composable(Screens.HomeScreen.route) {
-          HomeScreen(navHostController = navController)
+          HomeScreen(navHostController = navController, paddingValues = PaddingValues())
         }
+        composable(Screens.ItemScreen.route) {
+           ItemScreen(navController = navController, paddingValues = PaddingValues())
+        }
+
 
         composable(Screens.MarketPlace.route) {
             MarketPlace(navHostController = navController)

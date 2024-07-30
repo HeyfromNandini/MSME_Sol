@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -249,7 +250,9 @@ fun DropdownField(
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(selectedOption) }
 
-    Column(modifier = Modifier.fillMaxWidth(0.9f).padding(16.dp)) {
+    Column(modifier = Modifier
+        .fillMaxWidth(0.9f)
+        .padding(16.dp)) {
         OutlinedTextField(
             value = selectedText,
             onValueChange = {},
@@ -312,7 +315,9 @@ fun UploadIdentityProof(section: String) {
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Box(modifier = Modifier.fillMaxWidth().clickable { expanded = true }) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expanded = true }) {
                 OutlinedTextField(
                     value = selectedIdentityProof,
                     onValueChange = {},
@@ -387,15 +392,17 @@ fun OutlinedTextFieldBox(
     placeholder: String,
     keyboardType: KeyboardType
 ) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = { onValueChange(it) },
-        label = { Text(text = label, color = Color.Gray) },
-        placeholder = { Text(text = placeholder, fontSize = 14.sp) },
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        modifier = Modifier
-            .fillMaxWidth(0.9f)
-            .size(60.dp)
-    )
+   Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)) {
+       OutlinedTextField(
+           value = value,
+           onValueChange = { onValueChange(it,) },
+           label = { Text(text = label, color = Color.Gray, fontSize = 12.sp) },
+           placeholder = { Text(text = placeholder, fontSize = 12.sp) },
+           singleLine = true,
+           keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+           modifier = Modifier
+               .fillMaxWidth().padding(vertical = 15.dp)
+
+       )
+   }
 }
