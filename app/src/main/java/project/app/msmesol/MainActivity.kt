@@ -59,14 +59,10 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ) {
-                        println(it)
-                        val tagsViewModel: AddTagsViewModel = hiltViewModel()
-                        TagsScreen(reportWasteViewModel = tagsViewModel)
-
-//                        MainNavController(
-//                            it,
-//                            navController
-//                        )
+                        MainNavController(
+                            it,
+                            navController
+                        )
                     }
                 }
             }
