@@ -1,4 +1,4 @@
-package project.app.msmesol.screens.onboarding
+package project.app.msmesol.presentation.screens.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,7 +27,7 @@ import project.app.msmesol.ui.theme.PrimaryBlue
 import project.app.msmesol.ui.theme.PrimeSecBlue
 
 @Composable
-fun Screen1(navController: NavController) {
+fun Screen3(navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -38,7 +38,7 @@ fun Screen1(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.onboarding1),
+                painter = painterResource(id = R.drawable.onboarding3),
                 modifier = Modifier.size(400.dp),
                 contentDescription = ""
             )
@@ -72,9 +72,9 @@ fun Screen1(navController: NavController) {
                     horizontalArrangement = Arrangement.End
                 ) {
                     CircularProgressBar(
-                        percentage = 0.33f,
+                        percentage = 0.99f,
                         navController = navController,
-                        navigateTo = "screen2" // Replace with your actual navigation destination
+                        navigateTo = "signup" // Replace with your actual navigation destination
                     )
                 }
             }

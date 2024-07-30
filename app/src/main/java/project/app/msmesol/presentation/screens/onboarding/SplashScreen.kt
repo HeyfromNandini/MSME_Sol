@@ -1,4 +1,4 @@
-package project.app.msmesol.screens.onboarding
+package project.app.msmesol.presentation.screens.onboarding
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.tween
@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import project.app.msmesol.R
-import project.app.msmesol.navigation.Screens
+import project.app.msmesol.presentation.navigation.Screens
 import project.app.msmesol.ui.theme.PrimeSecBlue
 
 @Composable

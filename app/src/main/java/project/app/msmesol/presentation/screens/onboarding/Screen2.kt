@@ -1,4 +1,4 @@
-package project.app.msmesol.screens.onboarding
+package project.app.msmesol.presentation.screens.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

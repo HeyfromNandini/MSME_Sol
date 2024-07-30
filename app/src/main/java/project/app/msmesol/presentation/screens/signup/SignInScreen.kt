@@ -1,4 +1,4 @@
-package project.app.msmesol.screens.signup
+package project.app.msmesol.presentation.screens.signup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

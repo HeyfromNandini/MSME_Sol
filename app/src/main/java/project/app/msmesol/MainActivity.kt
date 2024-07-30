@@ -17,11 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import project.app.msmesol.bottombar.BottomBarUI
-import project.app.msmesol.navigation.MainNavController
-import project.app.msmesol.navigation.Screens
+import dagger.hilt.android.AndroidEntryPoint
+import project.app.msmesol.presentation.bottombar.BottomBarUI
+import project.app.msmesol.presentation.navigation.MainNavController
+import project.app.msmesol.presentation.navigation.Screens
 import project.app.msmesol.ui.theme.MSMESolTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {

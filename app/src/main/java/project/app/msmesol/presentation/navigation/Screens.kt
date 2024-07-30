@@ -1,11 +1,11 @@
-package project.app.msmesol.navigation
+package project.app.msmesol.presentation.navigation
 
 
 sealed class Screens(val route: String){
 
     object SplashScreen: Screens("splash")
-    object Screen1:Screens("screen1")
-    object Screen2:Screens("screen2")
+    object Screen1: Screens("screen1")
+    object Screen2: Screens("screen2")
     object Screen3: Screens("screen3")
 
     object SignUpChoice: Screens("signupchoice")
@@ -17,5 +17,6 @@ sealed class Screens(val route: String){
     object HomeScreen: Screens("home")
     object MarketPlace: Screens("marketplace")
     object ProfileScreen: Screens("profile")
+    object TagsScreen: Screens("profile")
 }
 
