@@ -137,7 +137,7 @@ fun TagsScreen(reportWasteViewModel: AddTagsViewModel) {
                     Column {
                         Text(
                             text = "Tag your waste",
-                            color = textColor,
+                            color = Color.White,
                             fontSize = 25.sp,
                         )
                         Spacer(modifier = Modifier.height(5.dp))
