@@ -1,4 +1,4 @@
-package project.app.msmesol.screens.onboarding
+package project.app.msmesol.presentation.screens.onboarding
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween

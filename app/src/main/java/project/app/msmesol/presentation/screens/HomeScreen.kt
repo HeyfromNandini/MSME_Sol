@@ -1,9 +1,9 @@
-package project.app.msmesol.screens.profile
+package project.app.msmesol.presentation.screens
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
 @Composable
-fun ProfileScreen(navHostController: NavHostController) {
+fun HomeScreen(navHostController: NavHostController) {
 
 }
