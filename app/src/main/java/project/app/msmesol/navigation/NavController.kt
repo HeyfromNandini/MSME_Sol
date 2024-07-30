@@ -73,7 +73,7 @@ fun MainNavController(
         }
 
         composable(Screens.ProfileScreen.route) {
-           ProfileScreen(navHostController = navController)
+           ProfileScreen(navController = navController)
         }
 
 
