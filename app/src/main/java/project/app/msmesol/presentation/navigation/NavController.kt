@@ -37,7 +37,6 @@ fun MainNavController(
             TagsScreen(reportWasteViewModel = tagsViewModel)
         }
 
-
         composable(Screens.SplashScreen.route) {
             SplashScreen(navController = navController)
         }
@@ -45,13 +44,14 @@ fun MainNavController(
         composable(Screens.Screen1.route) {
            Screen1(navController = navController)
         }
+
         composable(Screens.Screen2.route) {
             Screen2(navController = navController)
         }
+
         composable(Screens.Screen3.route) {
             Screen3(navController = navController)
         }
-
 
         composable(Screens.SignUpChoice.route) {
          SignUpChoice(navController = navController)
@@ -65,8 +65,6 @@ fun MainNavController(
             SignInScreen(navController= navController)
         }
 
-
-
         composable(Screens.HomeScreen.route) {
           HomeScreen(navHostController = navController)
         }
@@ -78,7 +76,6 @@ fun MainNavController(
         composable(Screens.ProfileScreen.route) {
            ProfileScreen(navHostController = navController)
         }
-
 
     }
 }

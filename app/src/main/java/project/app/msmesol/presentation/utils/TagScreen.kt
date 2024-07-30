@@ -136,13 +136,13 @@ fun TagsScreen(reportWasteViewModel: AddTagsViewModel) {
                 ) {
                     Column {
                         Text(
-                            text = "Tag your waste",
+                            text = "Tag your Category",
                             color = Color.White,
                             fontSize = 25.sp,
                         )
                         Spacer(modifier = Modifier.height(5.dp))
                         Text(
-                            text = "Every waste is different",
+                            text = "Choose what you make",
                             color = Color.LightGray,
                             fontSize = 13.sp,
                         )
@@ -172,7 +172,7 @@ fun TagsScreen(reportWasteViewModel: AddTagsViewModel) {
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
                                     text = if (reportWasteViewModel.tagsList.size > 1) {
-                                        "Mixed Waste"
+                                        "More than 1 product"
                                     } else {
                                         reportWasteViewModel.tagsList[0].name.substringBefore(" ")
                                     },
