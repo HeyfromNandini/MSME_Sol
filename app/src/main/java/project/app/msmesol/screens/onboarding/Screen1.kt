@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import project.app.msmesol.R
+import project.app.msmesol.navigation.Screens
 import project.app.msmesol.ui.theme.PrimaryBlue
 import project.app.msmesol.ui.theme.PrimeSecBlue
 
@@ -74,7 +75,7 @@ fun Screen1(navController: NavController) {
                     CircularProgressBar(
                         percentage = 0.33f,
                         navController = navController,
-                        navigateTo = "screen2" // Replace with your actual navigation destination
+                        navigateTo = Screens.Screen2.route // Replace with your actual navigation destination
                     )
                 }
             }

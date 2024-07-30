@@ -1,6 +1,7 @@
 package project.app.msmesol.screens.signup
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import project.app.msmesol.navigation.Screens
 import project.app.msmesol.ui.theme.OffWhite
 import project.app.msmesol.ui.theme.PrimeSecBlue
 import project.app.msmesol.ui.theme.SecondaryBlue
@@ -63,7 +65,7 @@ fun SignUpScreen(navController: NavController) {
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(0.5f)
+                    .fillMaxWidth(0.5f).clickable{ navController.navigate(Screens.SignUpScreen.route)}
 
                     .background(color = OffWhite), horizontalArrangement = Arrangement.Center
             ) {
@@ -77,7 +79,7 @@ fun SignUpScreen(navController: NavController) {
             }
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth().clickable{ navController.navigate(Screens.SignInScreen.route)},
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -107,7 +109,7 @@ fun SignUpScreen(navController: NavController) {
 
 
                 Text(
-                    text = "Seller",
+                    text = "Your Details",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
@@ -116,6 +118,9 @@ fun SignUpScreen(navController: NavController) {
 
                ContactInfoCard()
                 BusinessDetailsCard()
+                //product capacities
+                UploadIdentityProofCard()
+
 
 
             }

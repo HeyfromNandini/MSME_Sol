@@ -24,3 +24,5 @@ val SecondaryBlue = Color(0xFF0077b6)
 val OffSetBlue = Color(0xFF00b4d8)
 val SkyBlue = Color(0xFF90e0ef)
 val LightBlue = Color(0xFFcaf0f8)
+
+val DarkGray= Color(0xFF323232)

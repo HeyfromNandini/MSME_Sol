@@ -1,5 +1,10 @@
 package project.app.msmesol.screens.signup
 
+import android.content.Context
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -231,6 +237,7 @@ fun BusinessDetailsCard() {
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownField(
@@ -242,11 +249,12 @@ fun DropdownField(
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(selectedOption) }
 
-    Box(modifier = Modifier.fillMaxWidth(0.9f).padding(8.dp)) {
+    Column(modifier = Modifier.fillMaxWidth(0.9f).padding(16.dp)) {
         OutlinedTextField(
             value = selectedText,
             onValueChange = {},
             label = { Text(text = label, color = Color.Gray) },
+            enabled = false,
             readOnly = true,
             modifier = Modifier
                 .fillMaxWidth()
@@ -256,21 +264,115 @@ fun DropdownField(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
-                .fillMaxWidth(0.9f) // Adjust width as needed
-                .zIndex(4f) // Add zIndex for better positioning
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
         ) {
             options.forEach { option ->
-                DropdownMenuItem(
-                    onClick = {
-                        selectedText = option
-                        onOptionSelected(option)
-                        expanded = false
-                    }
-                ) {
+                DropdownMenuItem(onClick = {
+                    expanded = false
+                    selectedText = option
+                    onOptionSelected(option)
+                }) {
                     Text(text = option)
                 }
             }
         }
+    }
+}
+
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun UploadIdentityProof(section: String) {
+    val context = LocalContext.current
+    var selectedIdentityProof by remember { mutableStateOf("") }
+    var expanded by remember { mutableStateOf(false) }
+    var fileUri by remember { mutableStateOf<Uri?>(null) }
+    val identityProofOptions = listOf("Aadhar Card", "Passport", "Driving License", "Voter ID")
+
+    val filePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri: Uri? ->
+        fileUri = uri
+    }
+
+    Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)) {
+        Text(
+            text = section,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            modifier = Modifier.padding(vertical = 10.dp)
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Box(modifier = Modifier.fillMaxWidth().clickable { expanded = true }) {
+                OutlinedTextField(
+                    value = selectedIdentityProof,
+                    onValueChange = {},
+                    label = { Text(text = "Select identity proof", color = Color.Gray) },
+                    readOnly = true,
+                    enabled = false,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { expanded = true }
+                )
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                ) {
+                    identityProofOptions.forEach { option ->
+                        DropdownMenuItem(onClick = {
+                            expanded = false
+                            selectedIdentityProof = option
+                        }) {
+                            Text(text = option)
+                        }
+                    }
+                }
+            }
+
+            Button(
+                onClick = {
+                    openFilePicker(context, filePickerLauncher)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Upload File")
+            }
+
+            fileUri?.let {
+                Text("Selected file: ${it.path}", color = Color.White)
+            }
+        }
+    }
+}
+
+private fun openFilePicker(context: Context, launcher: ActivityResultLauncher<Array<String>>) {
+    val mimeTypes = arrayOf("application/pdf", "image/*")
+    launcher.launch(mimeTypes)
+}
+
+@Composable
+fun UploadIdentityProofCard() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 2.dp, vertical = 10.dp),
+        shape = CardDefaults.elevatedShape,
+        elevation = CardDefaults.elevatedCardElevation(8.dp),
+        colors = CardDefaults.cardColors(containerColor = SecondaryBlue)
+    ) {
+        UploadIdentityProof(section = "Upload Identity Proof")
     }
 }
 
