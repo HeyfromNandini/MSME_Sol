@@ -1,5 +1,7 @@
 package project.app.msmesol.presentation.screens.signup
 
+import android.app.Activity
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,33 +30,36 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import project.app.msmesol.presentation.navigation.Screens
 import project.app.msmesol.ui.theme.OffWhite
 import project.app.msmesol.ui.theme.PrimeSecBlue
 import project.app.msmesol.ui.theme.SecondaryBlue
+import project.app.msmesol.ui.theme.appBackground
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(navController: NavController) {
-
-
+    var isOTPSent = remember { mutableStateOf(false) }
+    var isOTPVerified = remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = SecondaryBlue)
+            .background(color = appBackground)
             .verticalScroll(rememberScrollState())
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(20.dp)
-                .background(color = SecondaryBlue)
+                .background(color = appBackground)
         ) {
 
         }
@@ -65,7 +70,8 @@ fun SignUpScreen(navController: NavController) {
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(0.5f).clickable{ navController.navigate(Screens.SignUpScreen.route)}
+                    .fillMaxWidth(0.5f)
+                    .clickable { navController.navigate(Screens.SignUpScreen.route) }
 
                     .background(color = OffWhite), horizontalArrangement = Arrangement.Center
             ) {
@@ -79,7 +85,8 @@ fun SignUpScreen(navController: NavController) {
             }
             Row(
                 modifier = Modifier
-                    .fillMaxWidth().clickable{ navController.navigate(Screens.SignInScreen.route)},
+                    .fillMaxWidth()
+                    .clickable { navController.navigate(Screens.SignInScreen.route) },
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -97,7 +104,7 @@ fun SignUpScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = OffWhite)
+                .background(color = appBackground)
         ) {
 
             Column(
@@ -112,14 +119,29 @@ fun SignUpScreen(navController: NavController) {
                     text = "Your Details",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black,
+                    color = Color.White,
                     modifier = Modifier.padding(vertical = 10.dp)
                 )
 
-               ContactInfoCard()
-                BusinessDetailsCard()
-                //product capacities
-                UploadIdentityProofCard()
+               ContactInfoCard(isOtpSent = isOTPSent, isOtpVerified = isOTPVerified)
+                AnimatedVisibility(visible = isOTPVerified.value) {
+                    Column {
+                        BusinessDetailsCard()
+                        //product capacities
+                        UploadIdentityProofCard()
+
+                        Button(
+                            onClick = {
+
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp)
+                        ) {
+                            Text("Submit")
+                        }
+                    }
+                }
 
 
 
