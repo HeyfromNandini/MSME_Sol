@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "103089460014",
+    "project_id": "xpress-bbe8e",
+    "storage_bucket": "xpress-bbe8e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103089460014:android:fad88ddcf80267956b20bf",
+        "android_client_info": {
+          "package_name": "project.app.msmesol"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzCd08pogzVC7ors4HiBOBa8zYjhEjrQ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

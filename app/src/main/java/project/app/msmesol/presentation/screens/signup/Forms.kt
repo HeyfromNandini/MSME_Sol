@@ -1,10 +1,14 @@
 package project.app.msmesol.presentation.screens.signup
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import com.google.firebase.auth.PhoneAuthOptions
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -23,6 +28,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,13 +38,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthProvider
 import project.app.msmesol.ui.theme.SecondaryBlue
+import project.app.msmesol.ui.theme.appBackground
 
 @Composable
-fun ContactInfo(section: String) {
+fun ContactInfo(
+    section: String,
+    isOtpSent: MutableState<Boolean>,
+    isOtpVerified: MutableState<Boolean>
+) {
+
+    val auth = FirebaseAuth.getInstance()
+    val context = LocalContext.current
+    val currentActivity = context as? Activity
+
     Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)) {
         Text(
             text = section,
@@ -53,11 +74,15 @@ fun ContactInfo(section: String) {
         var businessAddress by remember { mutableStateOf("") }
         var websiteUrl by remember { mutableStateOf("") }
         var otp by remember { mutableStateOf("") }
+        var vfId by remember {
+            mutableStateOf(TextFieldValue(""))
+        }
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .background(appBackground),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             OutlinedTextFieldBox(
@@ -76,47 +101,147 @@ fun ContactInfo(section: String) {
                 keyboardType = KeyboardType.Number
             )
 
-            OutlinedTextFieldBox(
-                value = otp,
-                onValueChange = { otp = it },
-                label = "Enter OTP",
-                placeholder = "OTP",
-                keyboardType = KeyboardType.Number
-            )
-            Button(onClick = { /* Handle OTP verification */ }) {
-                Text("Verify OTP")
+            Button(onClick = {
+                currentActivity?.let {
+                    val callbacks =
+                        object :
+                            PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+                            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                                // Verification successful, automatically sign in the user
+                                signInWithPhoneAuthCredential(
+                                    credential,
+                                    auth
+                                )
+                            }
+
+                            override fun onVerificationFailed(exception: FirebaseException) {
+                                // Verification failed, show error message to the user
+                                Toast.makeText(
+                                    context,
+                                    "exception: ${exception.message}",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+
+                            override fun onCodeSent(
+                                verificationId: String,
+                                token: PhoneAuthProvider.ForceResendingToken,
+                            ) {
+                                vfId = vfId.copy(verificationId)
+                            }
+                        }
+
+
+                    val options = PhoneAuthOptions.newBuilder(auth)
+                        .setPhoneNumber("+91${phoneNumber}") // Phone number to verify
+                        .setTimeout(
+                            0L,
+                            java.util.concurrent.TimeUnit.SECONDS
+                        ) // Timeout and unit
+                        .setCallbacks(callbacks)
+                        .setActivity(currentActivity)// OnVerificationStateChangedCallbacks
+                        .build()
+                    PhoneAuthProvider.verifyPhoneNumber(options)
+                    isOtpSent.value = true
+                }
+            }) {
+                Text("Send OTP")
             }
+            AnimatedVisibility(visible = isOtpSent.value) {
+                Column {
+                    OutlinedTextFieldBox(
+                        value = otp,
+                        onValueChange = { otp = it },
+                        label = "Enter OTP",
+                        placeholder = "OTP",
+                        keyboardType = KeyboardType.Number
+                    )
+                    Button(onClick = {
+                        try {
+                            val credential =
+                                PhoneAuthProvider.getCredential(
+                                    vfId.text,
+                                    otp
+                                )
+                            FirebaseAuth.getInstance()
+                                .signInWithCredential(credential)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        // Sign in success
+                                        val users = task.result?.user
+                                        isOtpVerified.value = true
+                                        println("Success")
+                                        Toast.makeText(
+                                            context,
+                                            "Success",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
+                                        // Do something with user
+                                    } else {
+                                        isOtpVerified.value = false
+                                        // Sign in failed
+                                        val message = task.exception?.message
+                                        // Handle error
+                                        Toast.makeText(
+                                            context,
+                                            "Error: $message",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                        } catch (e: Exception) {
+                            println("Error: ${e.message}")
+                            Toast.makeText(
+                                context,
+                                "Error: ${e.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }) {
+                        Text("Verify OTP")
+                    }
 
-            OutlinedTextFieldBox(
-                value = businessAddress,
-                onValueChange = { businessAddress = it },
-                label = "Enter business address",
-                placeholder = "Business Address",
-                keyboardType = KeyboardType.Text
-            )
+                    AnimatedVisibility(visible = isOtpVerified.value) {
+                        Column {
+                            OutlinedTextFieldBox(
+                                value = businessAddress,
+                                onValueChange = { businessAddress = it },
+                                label = "Enter business address",
+                                placeholder = "Business Address",
+                                keyboardType = KeyboardType.Text
+                            )
 
-            OutlinedTextFieldBox(
-                value = websiteUrl,
-                onValueChange = { websiteUrl = it },
-                label = "Enter website URL",
-                placeholder = "Website URL (optional)",
-                keyboardType = KeyboardType.Uri
-            )
+                            OutlinedTextFieldBox(
+                                value = websiteUrl,
+                                onValueChange = { websiteUrl = it },
+                                label = "Enter website URL",
+                                placeholder = "Website URL (optional)",
+                                keyboardType = KeyboardType.Uri
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun ContactInfoCard() {
+fun ContactInfoCard(
+    isOtpSent: MutableState<Boolean>,
+    isOtpVerified: MutableState<Boolean>
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 2.dp, vertical = 10.dp),
         shape = CardDefaults.elevatedShape,
         elevation = CardDefaults.elevatedCardElevation(8.dp),
-        colors = CardDefaults.cardColors(containerColor = SecondaryBlue),
+        colors = CardDefaults.cardColors(containerColor = appBackground),
     ) {
-        ContactInfo(section = "Contact Info")
+        ContactInfo(section = "Contact Info", isOtpSent = isOtpSent, isOtpVerified = isOtpVerified)
     }
 }
 
@@ -232,7 +357,7 @@ fun BusinessDetailsCard() {
             .padding(horizontal = 2.dp, vertical = 10.dp),
         shape = CardDefaults.elevatedShape,
         elevation = CardDefaults.elevatedCardElevation(8.dp),
-        colors = CardDefaults.cardColors(containerColor = SecondaryBlue),
+        colors = CardDefaults.cardColors(containerColor = appBackground),
     ) {
         BusinessDetails(section = "Business Details")
     }
@@ -250,9 +375,11 @@ fun DropdownField(
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(selectedOption) }
 
-    Column(modifier = Modifier
-        .fillMaxWidth(0.9f)
-        .padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(0.9f)
+            .padding(16.dp)
+    ) {
         OutlinedTextField(
             value = selectedText,
             onValueChange = {},
@@ -282,7 +409,6 @@ fun DropdownField(
         }
     }
 }
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -375,12 +501,11 @@ fun UploadIdentityProofCard() {
             .padding(horizontal = 2.dp, vertical = 10.dp),
         shape = CardDefaults.elevatedShape,
         elevation = CardDefaults.elevatedCardElevation(8.dp),
-        colors = CardDefaults.cardColors(containerColor = SecondaryBlue)
+        colors = CardDefaults.cardColors(containerColor = appBackground)
     ) {
         UploadIdentityProof(section = "Upload Identity Proof")
     }
 }
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -392,18 +517,34 @@ fun OutlinedTextFieldBox(
     placeholder: String,
     keyboardType: KeyboardType
 ) {
-   Row(modifier = Modifier.fillMaxWidth().padding(end = 10.dp)) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = 10.dp)
+    ) {
 
-           OutlinedTextField(
-               value = value,
-               onValueChange = { onValueChange(it) },
-               label = { Text(text = label, color = Color.Gray, fontSize = 12.sp) },
-               placeholder = { Text(text = placeholder, fontSize = 10.sp) },
-               singleLine = true,
-               textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp),
-               keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-               modifier = Modifier. padding(horizontal = 5.dp)
+        OutlinedTextField(
+            value = value,
+            onValueChange = { onValueChange(it) },
+            label = { Text(text = label, color = Color.Gray, fontSize = 15.sp) },
+            placeholder = { Text(text = placeholder, fontSize = 10.sp) },
+            singleLine = true,
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 15.sp),
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            modifier = Modifier.padding(horizontal = 5.dp),
 
-       )
-   }
+            )
+    }
+}
+
+
+fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential, auth: FirebaseAuth) {
+    auth.signInWithCredential(credential)
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                println("Successful")
+            } else {
+                println("Failed")
+            }
+        }
 }

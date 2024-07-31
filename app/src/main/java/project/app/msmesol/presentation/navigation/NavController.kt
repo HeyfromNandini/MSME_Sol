@@ -42,7 +42,7 @@ fun MainNavController(
     NavHost(
         navController = navController,
 //        startDestination = Screens.SplashScreen.route,
-        startDestination = Screens.OrderDetails.route,
+        startDestination = Screens.SignUpScreen.route,
     ) {
         composable(Screens.TagsScreen.route) {
             TagsScreen(reportWasteViewModel = tagsViewModel)
