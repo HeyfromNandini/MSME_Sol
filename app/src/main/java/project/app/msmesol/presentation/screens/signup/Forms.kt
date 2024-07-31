@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import com.google.firebase.auth.PhoneAuthOptions
 import androidx.compose.material.DropdownMenuItem
@@ -41,12 +40,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import project.app.msmesol.ui.theme.SecondaryBlue
 import project.app.msmesol.ui.theme.appBackground
 
 @Composable
@@ -266,7 +263,7 @@ fun BusinessDetails(section: String) {
         var panNumber by remember { mutableStateOf("") }
         var udyamNumber by remember { mutableStateOf("") }
 
-        val businessTypes = listOf("MSME", "Retailer", "Seller", "Electronics")
+        val businessTypes = listOf("Seller", "Buyer")
 
         Column(
             modifier = Modifier
@@ -418,7 +415,7 @@ fun UploadIdentityProof(section: String) {
     var selectedIdentityProof by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     var fileUri by remember { mutableStateOf<Uri?>(null) }
-    val identityProofOptions = listOf("Aadhar Card", "Passport", "Driving License", "Voter ID")
+    val identityProofOptions: List<IdentityProofOption> = IdentityProofOption.values().toList()
 
     val filePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
@@ -464,9 +461,9 @@ fun UploadIdentityProof(section: String) {
                     identityProofOptions.forEach { option ->
                         DropdownMenuItem(onClick = {
                             expanded = false
-                            selectedIdentityProof = option
+                            selectedIdentityProof = option.displayName
                         }) {
-                            Text(text = option)
+                            Text(text = option.displayName)
                         }
                     }
                 }
@@ -548,3 +545,17 @@ fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential, auth: Firebas
             }
         }
 }
+
+enum class IdentityProofOption(val displayName: String) {
+    AADHARCARD("Aadhar Card"),
+    PASSPORT("Passport"),
+    DRIVING_LICENSE("Driving License"),
+    VOTER_ID("Voter ID");
+
+    companion object {
+        fun fromDisplayName(displayName: String): IdentityProofOption? {
+            return values().find { it.displayName == displayName }
+        }
+    }
+}
+
