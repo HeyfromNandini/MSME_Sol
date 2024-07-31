@@ -392,16 +392,17 @@ fun OutlinedTextFieldBox(
     placeholder: String,
     keyboardType: KeyboardType
 ) {
-   Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp)) {
-       OutlinedTextField(
-           value = value,
-           onValueChange = { onValueChange(it,) },
-           label = { Text(text = label, color = Color.Gray, fontSize = 12.sp) },
-           placeholder = { Text(text = placeholder, fontSize = 12.sp) },
-           singleLine = true,
-           keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-           modifier = Modifier
-               .fillMaxWidth().padding(vertical = 15.dp)
+   Row(modifier = Modifier.fillMaxWidth().padding(end = 10.dp)) {
+
+           OutlinedTextField(
+               value = value,
+               onValueChange = { onValueChange(it) },
+               label = { Text(text = label, color = Color.Gray, fontSize = 12.sp) },
+               placeholder = { Text(text = placeholder, fontSize = 10.sp) },
+               singleLine = true,
+               textStyle = androidx.compose.ui.text.TextStyle(fontSize = 12.sp),
+               keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+               modifier = Modifier. padding(horizontal = 5.dp)
 
        )
    }

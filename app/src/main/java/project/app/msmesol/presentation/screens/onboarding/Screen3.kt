@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import project.app.msmesol.R
-import project.app.msmesol.navigation.Screens
+import project.app.msmesol.presentation.navigation.Screens
 import project.app.msmesol.ui.theme.PrimaryBlue
 import project.app.msmesol.ui.theme.PrimeSecBlue
 

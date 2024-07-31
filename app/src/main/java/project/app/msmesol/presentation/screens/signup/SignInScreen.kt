@@ -32,7 +32,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import project.app.msmesol.R
-import project.app.msmesol.navigation.Screens
+import project.app.msmesol.presentation.navigation.Screens
 import project.app.msmesol.ui.theme.OffWhite
 import project.app.msmesol.ui.theme.PrimaryBlue
 import project.app.msmesol.ui.theme.PrimeSecBlue

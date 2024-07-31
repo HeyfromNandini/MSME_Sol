@@ -7,18 +7,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import project.app.msmesol.screens.homescreen.HomeScreen
-import project.app.msmesol.screens.homescreen.ItemScreen
-import project.app.msmesol.screens.marketplace.MarketPlace
-import project.app.msmesol.screens.onboarding.Screen1
-import project.app.msmesol.screens.onboarding.Screen2
-import project.app.msmesol.screens.onboarding.Screen3
-import project.app.msmesol.screens.onboarding.SplashScreen
-import project.app.msmesol.screens.profile.ProfileScreen
-import project.app.msmesol.screens.signup.SignInScreen
-import project.app.msmesol.screens.signup.SignUpScreen
-import project.app.msmesol.screens.signup.SignUpChoice
-import project.app.msmesol.presentation.screens.HomeScreen
+import project.app.msmesol.presentation.screens.homescreen.BidScreen
+import project.app.msmesol.presentation.screens.homescreen.CartScreen
+import project.app.msmesol.presentation.screens.homescreen.HomeScreen
+import project.app.msmesol.presentation.screens.homescreen.ItemScreen
 import project.app.msmesol.presentation.screens.marketplace.MarketPlace
 import project.app.msmesol.presentation.screens.onboarding.Screen1
 import project.app.msmesol.presentation.screens.onboarding.Screen2
@@ -30,6 +22,14 @@ import project.app.msmesol.presentation.screens.signup.SignUpScreen
 import project.app.msmesol.presentation.screens.signup.SignUpChoice
 import project.app.msmesol.presentation.utils.TagsScreen
 import project.app.msmesol.presentation.viewmodel.AddTagsViewModel
+import project.app.msmesol.presentation.screens.homescreen.ItemDetails
+import project.app.msmesol.presentation.screens.homescreen.OrderScreen
+import project.app.msmesol.presentation.screens.homescreen.PaymentDetails
+import project.app.msmesol.presentation.screens.homescreen.SettingsScreen
+import project.app.msmesol.presentation.screens.msme.DashBoard
+import project.app.msmesol.presentation.screens.msme.MSMEMain
+import project.app.msmesol.presentation.screens.msme.MSMEMarketPlace
+import project.app.msmesol.presentation.screens.msme.OrderDetails
 
 @Composable
 fun MainNavController(
@@ -42,7 +42,7 @@ fun MainNavController(
     NavHost(
         navController = navController,
 //        startDestination = Screens.SplashScreen.route,
-        startDestination = Screens.TagsScreen.route,
+        startDestination = Screens.OrderDetails.route,
     ) {
         composable(Screens.TagsScreen.route) {
             TagsScreen(reportWasteViewModel = tagsViewModel)
@@ -82,6 +82,47 @@ fun MainNavController(
         composable(Screens.ItemScreen.route) {
            ItemScreen(navController = navController, paddingValues = PaddingValues())
         }
+        composable(Screens.ItemDetails.route) {
+            ItemDetails(navController = navController, paddingValues = PaddingValues())
+        }
+
+        composable(Screens.BidScreen.route) {
+            BidScreen(navController = navController, paddingValues = PaddingValues())
+        }
+
+        composable(Screens.OrderScreen.route) {
+            OrderScreen(navController = navController, paddingValues = PaddingValues())
+        }
+
+        composable(Screens.PaymentDetails.route) {
+            PaymentDetails(navController = navController, paddingValues = PaddingValues())
+        }
+
+        composable(Screens.SettingsScreen.route) {
+           SettingsScreen(navController = navController, paddingValues = PaddingValues())
+        }
+
+
+        //MSME MarketPlace
+
+        composable(Screens.MSMEMain.route) {
+            MSMEMain(navController = navController, paddingValues = PaddingValues())
+        }
+
+        composable(Screens.MSMEMarketPlace.route) {
+           MSMEMarketPlace(navController = navController, paddingValues = PaddingValues())
+        }
+
+        composable(Screens.DashBoard.route) {
+            DashBoard(navController = navController, paddingValues = PaddingValues())
+        }
+
+        composable(Screens.OrderDetails.route) {
+            OrderDetails(navController = navController, paddingValues = PaddingValues())
+        }
+
+
+
 
 
         composable(Screens.MarketPlace.route) {

@@ -1,15 +1,14 @@
-package project.app.msmesol.presentation.screens.signup
+package project.app.msmesol.presentation.screens.msme
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,31 +24,41 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import project.app.msmesol.presentation.screens.homescreen.CustomButtons
+import project.app.msmesol.presentation.screens.signup.MyButton
 import project.app.msmesol.ui.theme.OffWhite
 import project.app.msmesol.ui.theme.PrimaryBlue
 
+
 @Composable
-fun SignUpChoice(navController: NavController) {
+fun MSMEMain(paddingValues: PaddingValues, navController: NavController) {
+
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-
     ) {
 
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 100.dp), horizontalAlignment = Alignment.CenterHorizontally
+                .padding( horizontal = 20.dp)
+                .padding(top = 100.dp,), horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Text(
-                text = "Your Identity, Our Responsibility",
-                fontSize = 20.sp,
+                text = "MSME",
+                fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
 
                 modifier = Modifier.padding(vertical = 10.dp)
+            )
+
+            Text(
+                text = "Manage your business with ease and efficiency",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(vertical = 10.dp, horizontal = 30.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -62,7 +71,7 @@ fun SignUpChoice(navController: NavController) {
                 iterations = Int.MAX_VALUE,
                 isPlaying = true,
                 contentScale = ContentScale.Crop,
-                speed = 1.45f,
+                speed = 1f,
                 modifier = Modifier
                     .size(220.dp)
                     .padding(vertical = 15.dp)
@@ -70,31 +79,12 @@ fun SignUpChoice(navController: NavController) {
                         // Action when profile image clicked
                     })
 
-            MyButton(navController = navController, text = "Buyer", destination = "signupscreen")
-            MyButton(navController = navController, text = "Seller", destination = "signupscreen")
+//            MyButton(navController = navController, text = "Buyer", destination = "signupscreen")
+            Spacer(modifier = Modifier.height(40.dp))
 
 
+            CustomButtons(text = "Get Started", color = Color.Black)
         }
 
-    }
-}
-
-
-
-@Composable
-fun MyButton(navController: NavController, text: String, destination: String) {
-    Button(
-        onClick = { navController.navigate(destination) },
-//        colors = androidx.compose.material3.ButtonDefaults.buttonColors(PrimaryBlue),
-        modifier = Modifier
-            .padding(vertical = 10.dp)
-            .width(150.dp)
-    ) {
-        Text(
-            text = text,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-//            color = Color.White
-        )
     }
 }

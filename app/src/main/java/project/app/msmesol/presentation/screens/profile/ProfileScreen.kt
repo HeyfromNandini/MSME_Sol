@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import project.app.msmesol.screens.profile.ProfileImage
 
 @OptIn(
     ExperimentalComposeUiApi::class

@@ -34,7 +34,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import project.app.msmesol.navigation.Screens
+import project.app.msmesol.presentation.navigation.Screens
 import project.app.msmesol.ui.theme.OffWhite
 import project.app.msmesol.ui.theme.PrimeSecBlue
 import project.app.msmesol.ui.theme.SecondaryBlue

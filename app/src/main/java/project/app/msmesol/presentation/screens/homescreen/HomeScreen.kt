@@ -1,4 +1,4 @@
-package project.app.msmesol.screens.homescreen
+package project.app.msmesol.presentation.screens.homescreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
