@@ -16,8 +16,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -28,6 +31,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -51,24 +55,32 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import project.app.msmesol.R
+import project.app.msmesol.data.Groups
+import project.app.msmesol.data.Tag
+import project.app.msmesol.data.categories
+import project.app.msmesol.ui.theme.textColor
 
 @Composable
 fun HomeScreen(paddingValues: PaddingValues, navHostController: NavHostController) {
 
+    val topSearch1 by remember {
+        mutableStateOf(categories.random().tags.random())
+    }
+    val topSearch2 by remember {
+        mutableStateOf(categories.random().tags.random())
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
     ) {
-
-        Column (modifier = Modifier.verticalScroll(rememberScrollState())){
-
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
 
             AppName()
-
-
 
             SearchBar(text = "Search for Products")
 
@@ -82,14 +94,12 @@ fun HomeScreen(paddingValues: PaddingValues, navHostController: NavHostControlle
                     .horizontalScroll(rememberScrollState())
             ) {
 
-                BidCards(text = "Tropical fruits", image = R.drawable.onboarding1)
-                BidCards(text = "Sweet Watermelon", image = R.drawable.onboarding1)
+                BidCards(text = topSearch1.name, image = topSearch1.image)
+                BidCards(text = topSearch2.name, image = topSearch2.image)
             }
 
             RowHeadings(text1 = "Product", text2 = "Explore all")
-           ProductGrid()
-
-
+            CategorySection(categories = categories)
 
 
         }
@@ -210,7 +220,7 @@ fun SearchBar(text: String) {
 }
 
 @Composable
-fun BidCards(image: Int, text: String) {
+fun BidCards(image: String, text: String) {
 
 
     Box(modifier = Modifier) {
@@ -219,7 +229,7 @@ fun BidCards(image: Int, text: String) {
         Card(
             modifier = Modifier
                 .width(190.dp)
-
+                .height(350.dp)
                 .padding(horizontal = 5.dp, vertical = 10.dp)
 
         ) {
@@ -233,10 +243,10 @@ fun BidCards(image: Int, text: String) {
 
                 Icon(imageVector = Icons.Default.Favorite, contentDescription = "")
 
-                Image(
-                    painter = painterResource(id = image),
+                AsyncImage(
+                    model = image,
                     contentDescription = "",
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier.fillMaxWidth()
                 )
                 Text(text = text, fontSize = 17.sp, fontWeight = FontWeight.Bold)
@@ -333,5 +343,68 @@ fun AppName() {
         Spacer(modifier = Modifier.width(10.dp))
         Text(text = "Xpress", fontSize = 24.sp, fontWeight = FontWeight.Bold)
 
+    }
+}
+
+@Composable
+fun CategorySection(categories: List<Groups>) {
+    Column(modifier = Modifier.padding(horizontal = 15.dp, vertical = 10.dp)) {
+        Text(text = "Categories", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2), // Adjust the number of columns as needed
+            contentPadding = PaddingValues(vertical = 8.dp),
+            modifier = Modifier.fillMaxWidth()
+                .height(800.dp)
+        ) {
+            items(categories) { group ->
+                Column(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(MaterialTheme.colorScheme.background),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = group.name,
+                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                        modifier = Modifier.padding(8.dp),
+                        color = textColor,
+                        fontSize = 15.sp
+                    )
+
+                    CategoryTagCard(group)
+
+
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CategoryTagCard(groups: Groups) {
+    Card(
+        modifier = Modifier
+            .padding(4.dp)
+            .fillMaxWidth(),
+        elevation = CardDefaults.elevatedCardElevation()
+    ) {
+        Row(
+            modifier = Modifier.padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = groups.icon ?: Icons.Default.Image,
+                contentDescription = groups.name,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(4.dp)),
+                tint = textColor
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = groups.name, fontSize = 15.sp)
+        }
     }
 }

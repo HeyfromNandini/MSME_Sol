@@ -31,6 +31,7 @@ import project.app.msmesol.presentation.screens.msme.DashBoard
 import project.app.msmesol.presentation.screens.msme.MSMEMain
 import project.app.msmesol.presentation.screens.msme.MSMEMarketPlace
 import project.app.msmesol.presentation.screens.msme.OrderDetails
+import project.app.msmesol.presentation.viewmodel.MainViewModel
 
 @Composable
 fun MainNavController(
@@ -39,6 +40,7 @@ fun MainNavController(
 ) {
     val context = LocalContext.current
     val tagsViewModel: AddTagsViewModel = hiltViewModel()
+    val mainViewModel = hiltViewModel<MainViewModel>()
 
     NavHost(
         navController = navController,
@@ -81,10 +83,14 @@ fun MainNavController(
           HomeScreen(navHostController = navController, paddingValues = PaddingValues())
         }
         composable(Screens.ItemScreen.route) {
-           ItemScreen(navController = navController, paddingValues = PaddingValues())
+           ItemScreen(navController = navController, paddingValues = PaddingValues(), mainViewModel = mainViewModel)
         }
         composable(Screens.ItemDetails.route) {
-            ItemDetails(navController = navController, paddingValues = PaddingValues())
+            ItemDetails(
+                navController = navController,
+                paddingValues = PaddingValues(),
+                mainViewModel = mainViewModel
+            )
         }
 
         composable(Screens.BidScreen.route) {
@@ -111,7 +117,7 @@ fun MainNavController(
         }
 
         composable(Screens.MSMEMarketPlace.route) {
-           MSMEMarketPlace(navController = navController, paddingValues = PaddingValues())
+           MSMEMarketPlace(navController = navController, paddingValues = PaddingValues(), mainViewModel = mainViewModel)
         }
 
         composable(Screens.DashBoard.route) {

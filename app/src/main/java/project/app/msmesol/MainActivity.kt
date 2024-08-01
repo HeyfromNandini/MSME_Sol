@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                     navBackStackEntry?.destination?.route?.let { route ->
                         bottomBarState.value = when (route) {
                             Screens.HomeScreen.route,
-                            Screens.MarketPlace.route,
+                            Screens.ItemScreen.route,
                             Screens.ProfileScreen.route ->true
                             else -> false
                         }

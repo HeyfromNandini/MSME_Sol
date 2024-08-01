@@ -263,6 +263,7 @@ fun SignInScreen(navController: NavController) {
                                                             userDatastore.saveLoginStatus(true)
                                                             userDatastore.saveName(user.name)
                                                             userDatastore.saveNumber(user.phoneNumber)
+                                                            userDatastore.saveTypeOfUser(user.businessType)
                                                             navController.navigate(Screens.HomeScreen.route)
                                                             Toast.makeText(
                                                                 context,

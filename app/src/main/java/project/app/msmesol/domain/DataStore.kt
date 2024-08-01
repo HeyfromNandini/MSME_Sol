@@ -16,7 +16,7 @@ class UserDatastore(private val context: Context) {
     companion object {
         val phoneNumber = stringPreferencesKey("phoneNumber")
         val userName = stringPreferencesKey("userName")
-        val gender = stringPreferencesKey("gender")
+        val typeOfUser = stringPreferencesKey("typeOfUser")
         val isLoggedIn = booleanPreferencesKey("login")
         val pfp = stringPreferencesKey("pfp")
     }
@@ -51,13 +51,13 @@ class UserDatastore(private val context: Context) {
         it[isLoggedIn] ?: false
     }
 
-    val getGender: Flow<String> = context.datastore.data.map {
-        it[gender] ?: ""
+    val getTypeOfUser: Flow<String> = context.datastore.data.map {
+        it[typeOfUser] ?: ""
     }
 
-    suspend fun saveGender(userGender: String) {
+    suspend fun saveTypeOfUser(userType: String) {
         context.datastore.edit {
-            it[gender] = userGender
+            it[typeOfUser] = userType
         }
     }
 

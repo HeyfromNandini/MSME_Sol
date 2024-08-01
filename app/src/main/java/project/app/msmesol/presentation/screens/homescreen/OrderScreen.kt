@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import project.app.msmesol.presentation.navigation.Screens
 
 
 @Composable
@@ -72,7 +73,9 @@ fun OrderScreen(paddingValues: PaddingValues, navController: NavController) {
                 onSelect = { paymentmcq = it }
             )
             
-            CustomButtons(text = "Confirm", color = Color.Black)
+            CustomButtons(text = "Confirm", color = Color.Black) {
+                navController.navigate(Screens.PaymentDetails.route)
+            }
 
 
         }

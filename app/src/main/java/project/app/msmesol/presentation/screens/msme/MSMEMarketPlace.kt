@@ -20,14 +20,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import project.app.msmesol.data.categories
 import project.app.msmesol.presentation.screens.homescreen.AppName
 import project.app.msmesol.presentation.screens.homescreen.FilterCards
 import project.app.msmesol.presentation.screens.homescreen.ItemsGrid
 import project.app.msmesol.presentation.screens.signup.OutlinedTextFieldBox
+import project.app.msmesol.presentation.viewmodel.MainViewModel
 
 
 @Composable
-fun MSMEMarketPlace(paddingValues: PaddingValues, navController: NavController){
+fun MSMEMarketPlace(
+    paddingValues: PaddingValues,
+    navController: NavController,
+    mainViewModel: MainViewModel
+){
 
 
     Column(
@@ -58,7 +64,11 @@ fun MSMEMarketPlace(paddingValues: PaddingValues, navController: NavController){
 
 
 
-            ItemsGrid()
+            ItemsGrid(
+                groups = categories,
+                navController = navController,
+                mainViewModel = mainViewModel
+            )
 
 
         }

@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import project.app.msmesol.presentation.navigation.Screens
 import project.app.msmesol.presentation.screens.signup.OutlinedTextFieldBox
 
 
@@ -52,7 +53,10 @@ fun PaymentDetails(paddingValues: PaddingValues, navController: NavController) {
             ShippingAddress()
             OrderSummary()
 
-            CustomButtons(text = "Place Order", color = Color.Black)
+            CustomButtons(text = "Place Order", color = Color.Black) {
+                navController.popBackStack()
+                navController.navigate(Screens.HomeScreen.route)
+            }
             
             Spacer(modifier = Modifier.height(30.dp))
 

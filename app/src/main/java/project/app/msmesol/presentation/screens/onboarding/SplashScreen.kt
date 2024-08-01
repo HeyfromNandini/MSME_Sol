@@ -33,6 +33,9 @@ import project.app.msmesol.R
 import project.app.msmesol.domain.UserDatastore
 import project.app.msmesol.presentation.navigation.Screens
 import project.app.msmesol.ui.theme.PrimeSecBlue
+import project.app.msmesol.ui.theme.appBackground
+import project.app.msmesol.ui.theme.lightText
+import project.app.msmesol.ui.theme.textColor
 
 @Composable
 fun SplashScreen(navController: NavController) {
@@ -42,6 +45,7 @@ fun SplashScreen(navController: NavController) {
     val context = LocalContext.current
     val datastore = UserDatastore(context)
     val loginStatus = datastore.getLoginStatus.collectAsState(initial = false)
+    val userType = datastore.getTypeOfUser.collectAsState(initial = "")
     LaunchedEffect(key1 = true) {
         scale.animateTo(
             targetValue = 1.2f,
@@ -52,12 +56,17 @@ fun SplashScreen(navController: NavController) {
                 })
         )
         delay(1000L)
-        navController.navigate(if (loginStatus.value) Screens.HomeScreen.route else Screens.SignUpScreen.route)
+        navController.navigate(
+            if (loginStatus.value) {
+                if (userType.value == "Buyer") Screens.HomeScreen.route else
+                    Screens.MSMEMain.route
+            } else Screens.SignUpScreen.route
+        )
     }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = PrimeSecBlue),
+            .background(color = appBackground),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
 
@@ -68,10 +77,15 @@ fun SplashScreen(navController: NavController) {
             modifier = Modifier
                 .scale(scale.value)
                 .padding(vertical = 10.dp),
-            tint = Color.White,
+            tint = textColor,
         )
         Spacer(modifier = Modifier.height(15.dp))
-        Text(text = "MSME-Sol", fontSize = 45.sp, fontWeight = FontWeight.Bold)
+        Text(
+            text = "Xpress",
+            fontSize = 45.sp,
+            fontWeight = FontWeight.Bold,
+            color = textColor
+        )
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = "Your own Market Adda",
