@@ -2,11 +2,17 @@ package project.app.msmesol.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.jet.firestore.JetFirestore
+import project.app.msmesol.data.UserInfo
 import project.app.msmesol.domain.UserDatastore
 import project.app.msmesol.presentation.screens.homescreen.BidScreen
 import project.app.msmesol.presentation.screens.homescreen.CartScreen
@@ -41,104 +47,126 @@ fun MainNavController(
     val context = LocalContext.current
     val tagsViewModel: AddTagsViewModel = hiltViewModel()
     val mainViewModel = hiltViewModel<MainViewModel>()
+    var profileList by remember {
+        mutableStateOf<List<UserInfo>?>(null)
+    }
 
-    NavHost(
-        navController = navController,
+    JetFirestore(path = {
+        collection("UserInfo")
+    }, onRealtimeCollectionFetch = { value, _ ->
+        try {
+            profileList = value?.toObjects(UserInfo::class.java)
+            println("ProfileList: $profileList")
+        } catch (e: Exception) {
+            println("Errorrrrrrr: ${e.message}")
+        }
+    }) {
+        NavHost(
+            navController = navController,
 //        startDestination = Screens.SplashScreen.route,
-        startDestination = Screens.SplashScreen.route,
-    ) {
-        composable(Screens.TagsScreen.route) {
-            TagsScreen(reportWasteViewModel = tagsViewModel)
+            startDestination = Screens.SplashScreen.route,
+        ) {
+            composable(Screens.TagsScreen.route) {
+                TagsScreen(reportWasteViewModel = tagsViewModel)
+            }
+
+            composable(Screens.SplashScreen.route) {
+                SplashScreen(navController = navController, profileList = profileList)
+            }
+
+            composable(Screens.Screen1.route) {
+                Screen1(navController = navController)
+            }
+
+            composable(Screens.Screen2.route) {
+                Screen2(navController = navController)
+            }
+
+            composable(Screens.Screen3.route) {
+                Screen3(navController = navController)
+            }
+
+            composable(Screens.SignUpChoice.route) {
+                SignUpChoice(navController = navController)
+            }
+
+            composable(Screens.SignUpScreen.route) {
+                SignUpScreen(navController = navController)
+            }
+
+            composable(Screens.SignInScreen.route) {
+                SignInScreen(navController = navController, profileList = profileList)
+            }
+
+            composable(Screens.HomeScreen.route) {
+                HomeScreen(navHostController = navController, paddingValues = PaddingValues())
+            }
+            composable(Screens.ItemScreen.route) {
+                ItemScreen(
+                    navController = navController,
+                    paddingValues = PaddingValues(),
+                    mainViewModel = mainViewModel
+                )
+            }
+            composable(Screens.ItemDetails.route) {
+                ItemDetails(
+                    navController = navController,
+                    paddingValues = PaddingValues(),
+                    mainViewModel = mainViewModel
+                )
+            }
+
+            composable(Screens.BidScreen.route) {
+                BidScreen(navController = navController, paddingValues = PaddingValues())
+            }
+
+            composable(Screens.OrderScreen.route) {
+                OrderScreen(navController = navController, paddingValues = PaddingValues())
+            }
+
+            composable(Screens.PaymentDetails.route) {
+                PaymentDetails(navController = navController, paddingValues = PaddingValues())
+            }
+
+            composable(Screens.SettingsScreen.route) {
+                SettingsScreen(navController = navController, paddingValues = PaddingValues())
+            }
+
+
+            //MSME MarketPlace
+
+            composable(Screens.MSMEMain.route) {
+                MSMEMain(navController = navController, paddingValues = PaddingValues())
+            }
+
+            composable(Screens.MSMEMarketPlace.route) {
+                MSMEMarketPlace(
+                    navController = navController,
+                    paddingValues = PaddingValues(),
+                    mainViewModel = mainViewModel
+                )
+            }
+
+            composable(Screens.DashBoard.route) {
+                DashBoard(navController = navController, paddingValues = PaddingValues())
+            }
+
+            composable(Screens.OrderDetails.route) {
+                OrderDetails(navController = navController, paddingValues = PaddingValues())
+            }
+
+
+
+
+
+            composable(Screens.MarketPlace.route) {
+                MarketPlace(navHostController = navController)
+            }
+
+            composable(Screens.ProfileScreen.route) {
+                ProfileScreen(navController = navController)
+            }
+
         }
-
-        composable(Screens.SplashScreen.route) {
-            SplashScreen(navController = navController)
-        }
-
-        composable(Screens.Screen1.route) {
-           Screen1(navController = navController)
-        }
-
-        composable(Screens.Screen2.route) {
-            Screen2(navController = navController)
-        }
-
-        composable(Screens.Screen3.route) {
-            Screen3(navController = navController)
-        }
-
-        composable(Screens.SignUpChoice.route) {
-         SignUpChoice(navController = navController)
-        }
-
-        composable(Screens.SignUpScreen.route) {
-            SignUpScreen(navController= navController)
-        }
-
-        composable(Screens.SignInScreen.route) {
-            SignInScreen(navController= navController)
-        }
-
-        composable(Screens.HomeScreen.route) {
-          HomeScreen(navHostController = navController, paddingValues = PaddingValues())
-        }
-        composable(Screens.ItemScreen.route) {
-           ItemScreen(navController = navController, paddingValues = PaddingValues(), mainViewModel = mainViewModel)
-        }
-        composable(Screens.ItemDetails.route) {
-            ItemDetails(
-                navController = navController,
-                paddingValues = PaddingValues(),
-                mainViewModel = mainViewModel
-            )
-        }
-
-        composable(Screens.BidScreen.route) {
-            BidScreen(navController = navController, paddingValues = PaddingValues())
-        }
-
-        composable(Screens.OrderScreen.route) {
-            OrderScreen(navController = navController, paddingValues = PaddingValues())
-        }
-
-        composable(Screens.PaymentDetails.route) {
-            PaymentDetails(navController = navController, paddingValues = PaddingValues())
-        }
-
-        composable(Screens.SettingsScreen.route) {
-           SettingsScreen(navController = navController, paddingValues = PaddingValues())
-        }
-
-
-        //MSME MarketPlace
-
-        composable(Screens.MSMEMain.route) {
-            MSMEMain(navController = navController, paddingValues = PaddingValues())
-        }
-
-        composable(Screens.MSMEMarketPlace.route) {
-           MSMEMarketPlace(navController = navController, paddingValues = PaddingValues(), mainViewModel = mainViewModel)
-        }
-
-        composable(Screens.DashBoard.route) {
-            DashBoard(navController = navController, paddingValues = PaddingValues())
-        }
-
-        composable(Screens.OrderDetails.route) {
-            OrderDetails(navController = navController, paddingValues = PaddingValues())
-        }
-
-
-
-
-
-        composable(Screens.MarketPlace.route) {
-            MarketPlace(navHostController = navController)
-        }
-
-        composable(Screens.ProfileScreen.route) {
-           ProfileScreen(navController = navController)
-        }
-
     }
 }

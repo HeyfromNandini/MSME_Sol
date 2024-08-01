@@ -27,6 +27,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -37,6 +39,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.launch
+import project.app.msmesol.domain.UserDatastore
+import project.app.msmesol.presentation.screens.signup.DropdownField
 import project.app.msmesol.screens.profile.ProfileImage
 
 @OptIn(
@@ -47,10 +52,13 @@ fun ProfileScreen(
     navController: NavHostController,
 ) {
     val context = LocalContext.current
+    val datastore = UserDatastore(context)
     val pfp = "https://firebasestorage.googleapis.com/v0/b/msmesol.appspot.com/o/Profile%2Fpfp.jpg?alt=media&token=3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b"
-    val name = "Kailash"
-    val myPhoneNumber = "+91 1234567890"
+    val name = datastore.getName.collectAsState(initial = "")
+    val myPhoneNumber = datastore.getNumber.collectAsState(initial = "")
+    val type = datastore.getTypeOfUser.collectAsState(initial = "")
     val textColor = Color.White
+    val coroutineScope = rememberCoroutineScope()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -83,7 +91,7 @@ fun ProfileScreen(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = name ?: "User Name",
+                text = name.value ?: "User Name",
                 color = textColor,
                 fontSize = 20.sp,
             )
@@ -95,7 +103,7 @@ fun ProfileScreen(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = myPhoneNumber ?: "Phone Number",
+                text = myPhoneNumber.value ?: "Phone Number",
                 color = textColor,
                 fontSize = 12.sp,
                 softWrap = true,
@@ -120,6 +128,18 @@ fun ProfileScreen(
                 RepeatedProfileInfo(
                     icon = Icons.Filled.Notifications,
                     text = "Notifications"
+                )
+                val businessTypes = listOf("Seller", "Buyer")
+
+                DropdownField(
+                    options = businessTypes,
+                    selectedOption = type.value ?: "Select business type",
+                    onOptionSelected = {
+                        coroutineScope.launch {
+                            datastore.saveTypeOfUser(it)
+                        }
+                    },
+                    label = "Select business type"
                 )
             }
 
