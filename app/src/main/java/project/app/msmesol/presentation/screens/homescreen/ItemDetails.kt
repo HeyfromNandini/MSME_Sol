@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
@@ -37,152 +39,167 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import project.app.msmesol.R
+import project.app.msmesol.data.Tag
+import project.app.msmesol.presentation.navigation.Screens
 import project.app.msmesol.presentation.utils.AnimatedCounter
+import project.app.msmesol.presentation.viewmodel.MainViewModel
 
 @Composable
-fun ItemDetails(paddingValues: PaddingValues, navController: NavController) {
-
-    Column(modifier = Modifier.fillMaxSize()) {
-
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(vertical = 20.dp, horizontal = 10.dp),
-            horizontalAlignment = Alignment.Start
-
-        ) {
-
-            Image(
-                painter = painterResource(id = R.drawable.onboarding1),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Text(
-                text = "Product Name",
-                fontSize = 25.sp,
-                fontWeight = FontWeight.Bold, color = Color.White
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-                fontSize = 15.sp,
-            )
-
-            Row(
+fun ItemDetails(
+    paddingValues: PaddingValues,
+    navController: NavController,
+    mainViewModel: MainViewModel
+) {
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+        mainViewModel.itemSelected.value.let { item ->
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, end = 10.dp)
-                    .padding(vertical = 15.dp, horizontal = 10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .fillMaxSize()
+                    .padding(vertical = 20.dp, horizontal = 10.dp),
+                horizontalAlignment = Alignment.Start
+
             ) {
+                AsyncImage(
+                    model = item?.image ?: "",
+                    contentDescription = "",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.fillMaxWidth()
+                        .size(200.dp)
+                )
                 Text(
-                    text = "$99.99 ",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    text = item?.name ?: "",
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold, color = Color.White
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = item?.description ?: "",
+                    fontSize = 15.sp,
                 )
 
-
                 Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp, end = 10.dp)
+                        .padding(vertical = 15.dp, horizontal = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Qty.",
+                        text = "Rs. ${(1..10000).random()}",
                         fontSize = 18.sp,
-
+                        fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
 
-                    Spacer(modifier = Modifier.width(10.dp))
 
-                    var count by remember { mutableIntStateOf(100) }
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "",
-                        modifier = Modifier
-                            .size(25.dp)
-                            .padding(end = 5.dp)
-                            .clickable {
-                                count++
-                            }
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Qty.",
+                            fontSize = 18.sp,
 
-                    )
-                    AnimatedCounter(count = count)
-                    Icon(
-                        imageVector = Icons.Default.Remove,
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(25.dp)
-                            .padding(start = 5.dp)
-                            .clickable {
-                                count--
-                            }
+                            color = Color.White
+                        )
 
-                    )
-                }
+                        Spacer(modifier = Modifier.width(10.dp))
 
+                        var count by remember { mutableIntStateOf(100) }
+                        Icon(imageVector = Icons.Default.Add, contentDescription = "",
+                            modifier = Modifier
+                                .size(25.dp)
+                                .padding(end = 5.dp)
+                                .clickable {
+                                    count++
+                                }
 
-            }
-
-            Text(
-                text = "Seller Information ",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier.padding(vertical = 5.dp)
-            )
-
-            Text(
-                text = "Seller Name",
-                fontSize = 18.sp,
-                color = Color.White,
-                modifier = Modifier.padding(vertical = 4.dp)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp),
-                horizontalArrangement = Arrangement.Start
-            ) {
-
-                LazyRow {
-                    items(count = 5) {
-
-
+                        )
+                        AnimatedCounter(count = count)
                         Icon(
-                            imageVector = Icons.Default.Star,
+                            imageVector = Icons.Default.Remove,
                             contentDescription = "",
-                            tint = Color.Yellow,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier
+                                .size(25.dp)
+                                .padding(start = 5.dp)
+                                .clickable {
+                                    count--
+                                }
+
                         )
                     }
 
+
                 }
-                Spacer(modifier = Modifier.width(14.dp))
-                Text(text = "(200 reviews)", fontSize = 15.sp)
+
+                Text(
+                    text = "Seller Information ",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier.padding(vertical = 5.dp)
+                )
+
+                Text(
+                    text = "Seller Name",
+                    fontSize = 18.sp,
+                    color = Color.White,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+
+                    LazyRow {
+                        items(count = 5) {
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = "",
+                                tint = Color.Yellow,
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+
+                    }
+                    Spacer(modifier = Modifier.width(14.dp))
+                    Text(text = "(${(1..1000000).random()} reviews)", fontSize = 15.sp)
+
+                }
+
+                CustomButtons(text = "Add to cart", color = Color.Black) {
+                    navController.navigate(Screens.OrderScreen.route)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                CustomButtons(text = "Back to Search Results", color = Color.Transparent) {
+                    navController.popBackStack()
+                }
+
 
             }
-
-            CustomButtons(text = "Add to cart", color = Color.Black)
-            Spacer(modifier = Modifier.height(8.dp))
-            CustomButtons(text = "Back to Search Results", color = Color.Transparent)
-
-
         }
     }
 
 }
 
 @Composable
-fun CustomButtons(text: String, color: Color) {
+fun CustomButtons(
+    text: String,
+    color: Color,
+    onClick: () -> Unit = {}
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-
             .padding(horizontal = 10.dp, vertical = 5.dp)
+            .clickable {
+                onClick()
+            }
     ) {
         Row(
             modifier = Modifier

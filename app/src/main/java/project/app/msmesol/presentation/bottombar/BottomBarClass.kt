@@ -20,7 +20,7 @@ sealed class BottomBarClass(val route: String?, val title: String?, val icon: Im
     )
 
     object MarketPlace : BottomBarClass(
-        Screens.MarketPlace.route,
+        Screens.ItemScreen.route,
         "MarketPlace",
         Icons.Default.AddShoppingCart
     )
