@@ -7,6 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import project.app.msmesol.domain.UserDatastore
 import project.app.msmesol.presentation.screens.homescreen.BidScreen
 import project.app.msmesol.presentation.screens.homescreen.CartScreen
 import project.app.msmesol.presentation.screens.homescreen.HomeScreen
@@ -42,7 +43,7 @@ fun MainNavController(
     NavHost(
         navController = navController,
 //        startDestination = Screens.SplashScreen.route,
-        startDestination = Screens.SignUpScreen.route,
+        startDestination = Screens.SplashScreen.route,
     ) {
         composable(Screens.TagsScreen.route) {
             TagsScreen(reportWasteViewModel = tagsViewModel)

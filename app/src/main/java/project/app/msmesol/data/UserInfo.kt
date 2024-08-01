@@ -15,6 +15,23 @@ data class UserInfo(
     val panNumber: String,
     val udyamNumber: String,
     val selectedIdentityProof: String,
-    val fileUri: String?
-
-)
+    val fileUri: String? = null
+) {
+    constructor() : this(
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        null
+    )
+}
