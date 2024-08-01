@@ -60,6 +60,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -73,6 +74,7 @@ import project.app.msmesol.R
 import project.app.msmesol.data.Groups
 import project.app.msmesol.data.Tag
 import project.app.msmesol.data.categories
+import project.app.msmesol.domain.UserDatastore
 import project.app.msmesol.presentation.navigation.Screens
 import project.app.msmesol.presentation.screens.signup.OutlinedTextFieldBox
 import project.app.msmesol.presentation.viewmodel.MainViewModel
@@ -302,13 +304,21 @@ fun TagCard(
     navController: NavController,
     mainViewModel: MainViewModel
 ) {
+    val context = LocalContext.current
+    val datastore = UserDatastore(context)
+    val userType = datastore.getTypeOfUser.collectAsState(initial = "")
     Card(
         modifier = Modifier
             .padding(4.dp)
             .width(150.dp)
             .clickable {
-                mainViewModel.itemSelected.value = tag
-                navController.navigate(Screens.ItemDetails.route)
+                if (userType.value == "Buyer") {
+                    mainViewModel.itemSelected.value = tag
+                    navController.navigate(Screens.ItemDetails.route)
+                } else {
+                    mainViewModel.itemSelected.value = tag
+                    navController.navigate(Screens.DashBoard.route)
+                }
             }
     ) {
         Column(

@@ -152,7 +152,11 @@ fun MainNavController(
             }
 
             composable(Screens.DashBoard.route) {
-                DashBoard(navController = navController, paddingValues = PaddingValues())
+                DashBoard(
+                    navController = navController,
+                    paddingValues = PaddingValues(),
+                    mainViewModel = mainViewModel
+                )
             }
 
             composable(Screens.OrderDetails.route) {
