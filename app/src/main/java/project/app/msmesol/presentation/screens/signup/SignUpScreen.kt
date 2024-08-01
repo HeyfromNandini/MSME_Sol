@@ -55,7 +55,6 @@ fun SignUpScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = appBackground)
             .verticalScroll(rememberScrollState())
     ) {
         Row(
