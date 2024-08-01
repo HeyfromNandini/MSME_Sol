@@ -1,5 +1,18 @@
-package project.app.msmesol.presentation.screens.onboarding
+package project.app.msmesol
 
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import project.app.msmesol.presentation.screens.onboarding.SplashScreen
+import project.app.msmesol.ui.theme.MSMESolTheme
+import android.content.Intent
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -15,8 +28,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingBasket
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,12 +43,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
+import project.app.msmesol.MainActivity
 import project.app.msmesol.R
 import project.app.msmesol.data.UserInfo
 import project.app.msmesol.domain.UserDatastore
@@ -46,8 +60,27 @@ import project.app.msmesol.ui.theme.appBackground
 import project.app.msmesol.ui.theme.lightText
 import project.app.msmesol.ui.theme.textColor
 
+class BaseActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            MSMESolTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+//                    color = MaterialTheme.colorScheme.background
+                ) {
+                    BaseSplashScreen()
+                }
+
+            }
+        }
+    }
+}
+
 @Composable
-fun SplashScreen(navController: NavController, profileList: List<UserInfo>?) {
+fun BaseSplashScreen() {
     val scale = remember {
         androidx.compose.animation.core.Animatable(0f)
     }
@@ -65,12 +98,9 @@ fun SplashScreen(navController: NavController, profileList: List<UserInfo>?) {
                 })
         )
         delay(1000L)
-        navController.navigate(
-            if (loginStatus.value) {
-                if (userType.value == "Buyer") Screens.HomeScreen.route else
-                    Screens.MSMEMarketPlace.route
-            } else Screens.SignUpScreen.route
-        )
+        val refresh = Intent(context, MainActivity::class.java)
+        refresh.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        ContextCompat.startActivity(context, refresh, null)
     }
     Column(
         modifier = Modifier
@@ -79,53 +109,21 @@ fun SplashScreen(navController: NavController, profileList: List<UserInfo>?) {
         verticalArrangement = Arrangement.Center
 
     ) {
-        if (userType.value == "Buyer") {
-            Text(
-                text = "Your own Market Adda",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.LightGray
-            )
-            val compnotify by rememberLottieComposition(
-                spec = LottieCompositionSpec.Asset("marketplace.json")
-            )
-            val progress by animateLottieCompositionAsState(compnotify)
-            LottieAnimation(
-                composition = compnotify,
-                iterations = Int.MAX_VALUE,
-                isPlaying = true,
-                contentScale = ContentScale.Crop,
-                speed = 1.45f,
-                modifier = Modifier
-                    .size(220.dp)
-                    .padding(vertical = 15.dp)
-                    .clickable {
-                        // Action when profile image clicked
-                    })
-        } else {
-            Text(
-                text = "Manage your business with ease and efficiency",
-                fontSize = 20.sp,
-                modifier = Modifier.padding(vertical = 10.dp, horizontal = 30.dp)
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-
-            val compnotify by rememberLottieComposition(
-                spec = LottieCompositionSpec.Asset("marketplace.json")
-            )
-            val progress by animateLottieCompositionAsState(compnotify)
-            LottieAnimation(
-                composition = compnotify,
-                iterations = Int.MAX_VALUE,
-                isPlaying = true,
-                contentScale = ContentScale.Crop,
-                speed = 1f,
-                modifier = Modifier
-                    .size(220.dp)
-                    .padding(vertical = 15.dp)
-                    .clickable {
-                        // Action when profile image clicked
-                    })
-        }
+        Icon(
+            imageVector = Icons.Filled.ShoppingBasket,
+            contentDescription = "Logo",
+            modifier = Modifier
+                .scale(scale.value)
+                .padding(vertical = 10.dp),
+            tint = textColor,
+        )
+        Spacer(modifier = Modifier.height(15.dp))
+        Text(
+            text = "Xpress",
+            fontSize = 45.sp,
+            fontWeight = FontWeight.Bold,
+            color = textColor
+        )
     }
 }
+

@@ -369,7 +369,7 @@ fun DropdownField(
     label: String
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(selectedOption) }
+    var selectedText = selectedOption
 
     Column(
         modifier = Modifier
