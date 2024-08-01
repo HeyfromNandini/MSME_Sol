@@ -109,13 +109,12 @@ fun BaseSplashScreen() {
         verticalArrangement = Arrangement.Center
 
     ) {
-        Icon(
-            imageVector = Icons.Filled.ShoppingBasket,
+        Image(
+            painter = painterResource(id = R.drawable.appicon),
             contentDescription = "Logo",
             modifier = Modifier
                 .scale(scale.value)
                 .padding(vertical = 10.dp),
-            tint = textColor,
         )
         Spacer(modifier = Modifier.height(15.dp))
         Text(
