@@ -1,5 +1,6 @@
 package project.app.msmesol.presentation.bottombar
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,10 +28,11 @@ import project.app.msmesol.presentation.navigation.Screens
 
 @Composable
 fun BottomBarUI(
+    items: List<BottomBarClass>,
     navController: NavController,
-    bottomBarState: MutableState<Boolean> = mutableStateOf(true)
+    bottomBarState: MutableState<Boolean> = mutableStateOf(true),
 ) {
-    if (bottomBarState.value) {
+    AnimatedVisibility(visible = bottomBarState.value) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {

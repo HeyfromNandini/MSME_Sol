@@ -2,6 +2,7 @@ package project.app.msmesol.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +51,9 @@ fun MainNavController(
     var profileList by remember {
         mutableStateOf<List<UserInfo>?>(null)
     }
+    val datastore = UserDatastore(context)
+    val loginStatus = datastore.getLoginStatus.collectAsState(initial = false)
+    val userType = datastore.getTypeOfUser.collectAsState(initial = "")
 
     JetFirestore(path = {
         collection("UserInfo")
@@ -95,7 +99,7 @@ fun MainNavController(
             }
 
             composable(Screens.SignInScreen.route) {
-                SignInScreen(navController = navController, profileList = profileList)
+                SignInScreen(navController = navController)
             }
 
             composable(Screens.HomeScreen.route) {
@@ -164,7 +168,7 @@ fun MainNavController(
             }
 
             composable(Screens.ProfileScreen.route) {
-                ProfileScreen(navController = navController)
+                ProfileScreen(navController = navController, paddingValues = paddingValues)
             }
 
         }

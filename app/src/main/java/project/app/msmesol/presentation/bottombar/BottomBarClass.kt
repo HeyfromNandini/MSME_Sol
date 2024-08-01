@@ -39,3 +39,9 @@ val items = listOf(
     BottomBarClass.Profile,
 
     )
+
+val items1 = listOf(
+    BottomBarClass.Home,
+    BottomBarClass.Profile,
+
+    )
