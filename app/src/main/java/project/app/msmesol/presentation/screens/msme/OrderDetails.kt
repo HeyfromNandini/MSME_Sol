@@ -63,7 +63,6 @@ fun OrderDetails(paddingValues: PaddingValues, navController: NavController) {
                 text3 = "Bid placed on item #6782",
                 text4 = "Received payment for order #7903 "
             )
-            MarketGrid()
             TransactionCard(text1 = "Transaction Insights")
 
 
