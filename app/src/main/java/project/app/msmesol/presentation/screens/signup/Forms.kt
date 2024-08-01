@@ -44,13 +44,16 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import project.app.msmesol.presentation.viewmodel.LoginViewModel
 import project.app.msmesol.ui.theme.appBackground
+import kotlin.math.log
 
 @Composable
 fun ContactInfo(
     section: String,
     isOtpSent: MutableState<Boolean>,
-    isOtpVerified: MutableState<Boolean>
+    isOtpVerified: MutableState<Boolean>,
+    loginViewModel: LoginViewModel
 ) {
 
     val auth = FirebaseAuth.getInstance()
@@ -83,16 +86,16 @@ fun ContactInfo(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             OutlinedTextFieldBox(
-                value = name,
-                onValueChange = { name = it },
+                value = loginViewModel.name.value,
+                onValueChange = { loginViewModel.name.value = it },
                 label = "Enter name",
                 placeholder = "Name",
                 keyboardType = KeyboardType.Text
             )
 
             OutlinedTextFieldBox(
-                value = phoneNumber,
-                onValueChange = { phoneNumber = it },
+                value = loginViewModel.phoneNumber.value,
+                onValueChange = { loginViewModel.phoneNumber.value = it },
                 label = "Enter phone number",
                 placeholder = "Phone Number",
                 keyboardType = KeyboardType.Number
@@ -131,7 +134,7 @@ fun ContactInfo(
 
 
                     val options = PhoneAuthOptions.newBuilder(auth)
-                        .setPhoneNumber("+91${phoneNumber}") // Phone number to verify
+                        .setPhoneNumber("+91${loginViewModel.phoneNumber.value}") // Phone number to verify
                         .setTimeout(
                             0L,
                             java.util.concurrent.TimeUnit.SECONDS
@@ -203,16 +206,16 @@ fun ContactInfo(
                     AnimatedVisibility(visible = isOtpVerified.value) {
                         Column {
                             OutlinedTextFieldBox(
-                                value = businessAddress,
-                                onValueChange = { businessAddress = it },
+                                value = loginViewModel.businessAddress.value,
+                                onValueChange = { loginViewModel.businessAddress.value = it },
                                 label = "Enter business address",
                                 placeholder = "Business Address",
                                 keyboardType = KeyboardType.Text
                             )
 
                             OutlinedTextFieldBox(
-                                value = websiteUrl,
-                                onValueChange = { websiteUrl = it },
+                                value = loginViewModel.websiteUrl.value,
+                                onValueChange = { loginViewModel.websiteUrl.value = it },
                                 label = "Enter website URL",
                                 placeholder = "Website URL (optional)",
                                 keyboardType = KeyboardType.Uri
@@ -228,7 +231,8 @@ fun ContactInfo(
 @Composable
 fun ContactInfoCard(
     isOtpSent: MutableState<Boolean>,
-    isOtpVerified: MutableState<Boolean>
+    isOtpVerified: MutableState<Boolean>,
+    loginViewModel: LoginViewModel
 ) {
     Card(
         modifier = Modifier
@@ -238,12 +242,17 @@ fun ContactInfoCard(
         elevation = CardDefaults.elevatedCardElevation(8.dp),
         colors = CardDefaults.cardColors(containerColor = appBackground),
     ) {
-        ContactInfo(section = "Contact Info", isOtpSent = isOtpSent, isOtpVerified = isOtpVerified)
+        ContactInfo(
+            section = "Contact Info",
+            isOtpSent = isOtpSent,
+            isOtpVerified = isOtpVerified,
+            loginViewModel = loginViewModel
+        )
     }
 }
 
 @Composable
-fun BusinessDetails(section: String) {
+fun BusinessDetails(section: String, loginViewModel: LoginViewModel) {
     Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp)) {
         Text(
             text = section,
@@ -252,16 +261,6 @@ fun BusinessDetails(section: String) {
             color = Color.White,
             modifier = Modifier.padding(vertical = 10.dp)
         )
-
-        var businessName by remember { mutableStateOf("") }
-        var businessType by remember { mutableStateOf("") }
-        var registrationNumber by remember { mutableStateOf("") }
-        var yearOfEstablishment by remember { mutableStateOf("") }
-        var companySize by remember { mutableStateOf("") }
-        var annualRevenue by remember { mutableStateOf("") }
-        var gstinNumber by remember { mutableStateOf("") }
-        var panNumber by remember { mutableStateOf("") }
-        var udyamNumber by remember { mutableStateOf("") }
 
         val businessTypes = listOf("Seller", "Buyer")
 
@@ -272,8 +271,8 @@ fun BusinessDetails(section: String) {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             OutlinedTextFieldBox(
-                value = businessName,
-                onValueChange = { businessName = it },
+                value = loginViewModel.businessName.value,
+                onValueChange = { loginViewModel.businessName.value = it },
                 label = "Enter business name",
                 placeholder = "Business Name",
                 keyboardType = KeyboardType.Text
@@ -281,62 +280,62 @@ fun BusinessDetails(section: String) {
 
             DropdownField(
                 options = businessTypes,
-                selectedOption = businessType,
-                onOptionSelected = { businessType = it },
+                selectedOption = loginViewModel.businessType.value,
+                onOptionSelected = { loginViewModel.businessType.value = it },
                 label = "Select business type"
             )
 
             OutlinedTextFieldBox(
-                value = registrationNumber,
-                onValueChange = { registrationNumber = it },
+                value = loginViewModel.registrationNumber.value,
+                onValueChange = { loginViewModel.registrationNumber.value = it },
                 label = "Enter registration number",
                 placeholder = "Registration Number",
                 keyboardType = KeyboardType.Text
             )
 
             OutlinedTextFieldBox(
-                value = yearOfEstablishment,
-                onValueChange = { yearOfEstablishment = it },
+                value = loginViewModel.yearOfEstablishment.value,
+                onValueChange = { loginViewModel.yearOfEstablishment.value = it },
                 label = "Enter year of establishment",
                 placeholder = "Year of Establishment",
                 keyboardType = KeyboardType.Number
             )
 
             OutlinedTextFieldBox(
-                value = companySize,
-                onValueChange = { companySize = it },
+                value = loginViewModel.companySize.value,
+                onValueChange = { loginViewModel.companySize.value = it },
                 label = "Enter company size",
                 placeholder = "Company Size",
                 keyboardType = KeyboardType.Number
             )
 
             OutlinedTextFieldBox(
-                value = annualRevenue,
-                onValueChange = { annualRevenue = it },
+                value = loginViewModel.annualRevenue.value,
+                onValueChange = { loginViewModel.annualRevenue.value = it },
                 label = "Enter annual revenue",
                 placeholder = "Annual Revenue",
                 keyboardType = KeyboardType.Number
             )
 
             OutlinedTextFieldBox(
-                value = gstinNumber,
-                onValueChange = { gstinNumber = it },
+                value = loginViewModel.gstinNumber.value,
+                onValueChange = { loginViewModel.gstinNumber.value = it },
                 label = "Enter GSTIN number",
                 placeholder = "GSTIN Number",
                 keyboardType = KeyboardType.Text
             )
 
             OutlinedTextFieldBox(
-                value = panNumber,
-                onValueChange = { panNumber = it },
+                value = loginViewModel.panNumber.value,
+                onValueChange = { loginViewModel.panNumber.value = it },
                 label = "Enter PAN number",
                 placeholder = "PAN Number",
                 keyboardType = KeyboardType.Text
             )
 
             OutlinedTextFieldBox(
-                value = udyamNumber,
-                onValueChange = { udyamNumber = it },
+                value = loginViewModel.udyamNumber.value,
+                onValueChange = { loginViewModel.udyamNumber.value = it },
                 label = "Enter Udyam number",
                 placeholder = "Udyam Number",
                 keyboardType = KeyboardType.Text
@@ -347,7 +346,7 @@ fun BusinessDetails(section: String) {
 
 
 @Composable
-fun BusinessDetailsCard() {
+fun BusinessDetailsCard(loginViewModel: LoginViewModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -356,7 +355,7 @@ fun BusinessDetailsCard() {
         elevation = CardDefaults.elevatedCardElevation(8.dp),
         colors = CardDefaults.cardColors(containerColor = appBackground),
     ) {
-        BusinessDetails(section = "Business Details")
+        BusinessDetails(section = "Business Details", loginViewModel = loginViewModel)
     }
 }
 
@@ -410,7 +409,7 @@ fun DropdownField(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UploadIdentityProof(section: String) {
+fun UploadIdentityProof(section: String, loginViewModel: LoginViewModel) {
     val context = LocalContext.current
     var selectedIdentityProof by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
@@ -442,7 +441,7 @@ fun UploadIdentityProof(section: String) {
                 .fillMaxWidth()
                 .clickable { expanded = true }) {
                 OutlinedTextField(
-                    value = selectedIdentityProof,
+                    value = loginViewModel.selectedIdentityProof.value,
                     onValueChange = {},
                     label = { Text(text = "Select identity proof", color = Color.Gray) },
                     readOnly = true,
@@ -461,7 +460,7 @@ fun UploadIdentityProof(section: String) {
                     identityProofOptions.forEach { option ->
                         DropdownMenuItem(onClick = {
                             expanded = false
-                            selectedIdentityProof = option.displayName
+                            loginViewModel.selectedIdentityProof.value = option.displayName
                         }) {
                             Text(text = option.displayName)
                         }
@@ -471,7 +470,9 @@ fun UploadIdentityProof(section: String) {
 
             Button(
                 onClick = {
-                    openFilePicker(context, filePickerLauncher)
+                    fileUri?.let {
+                        loginViewModel.uploadFile(it, loginViewModel.name.value )
+                    } ?: openFilePicker(context, filePickerLauncher)
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -486,12 +487,12 @@ fun UploadIdentityProof(section: String) {
 }
 
 private fun openFilePicker(context: Context, launcher: ActivityResultLauncher<Array<String>>) {
-    val mimeTypes = arrayOf("application/pdf", "image/*")
+    val mimeTypes = arrayOf("application/pdf")
     launcher.launch(mimeTypes)
 }
 
 @Composable
-fun UploadIdentityProofCard() {
+fun UploadIdentityProofCard(loginViewModel: LoginViewModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -500,7 +501,7 @@ fun UploadIdentityProofCard() {
         elevation = CardDefaults.elevatedCardElevation(8.dp),
         colors = CardDefaults.cardColors(containerColor = appBackground)
     ) {
-        UploadIdentityProof(section = "Upload Identity Proof")
+        UploadIdentityProof(section = "Upload Identity Proof", loginViewModel = loginViewModel)
     }
 }
 
@@ -508,14 +509,16 @@ fun UploadIdentityProofCard() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OutlinedTextFieldBox(
+    modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
     placeholder: String,
-    keyboardType: KeyboardType
+    keyboardType: KeyboardType,
+    enabled: Boolean = true
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(end = 10.dp)
     ) {
@@ -529,7 +532,7 @@ fun OutlinedTextFieldBox(
             textStyle = androidx.compose.ui.text.TextStyle(fontSize = 15.sp),
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
             modifier = Modifier.padding(horizontal = 5.dp),
-
+            enabled = enabled
             )
     }
 }

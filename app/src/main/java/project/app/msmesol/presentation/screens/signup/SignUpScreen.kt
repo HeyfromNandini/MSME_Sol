@@ -36,9 +36,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import project.app.msmesol.presentation.navigation.Screens
+import project.app.msmesol.presentation.viewmodel.LoginViewModel
 import project.app.msmesol.ui.theme.OffWhite
 import project.app.msmesol.ui.theme.PrimeSecBlue
 import project.app.msmesol.ui.theme.SecondaryBlue
@@ -47,8 +49,9 @@ import project.app.msmesol.ui.theme.appBackground
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(navController: NavController) {
-    var isOTPSent = remember { mutableStateOf(false) }
-    var isOTPVerified = remember { mutableStateOf(false) }
+    val isOTPSent = remember { mutableStateOf(false) }
+    val isOTPVerified = remember { mutableStateOf(false) }
+    val loginViewModel: LoginViewModel = hiltViewModel()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -123,16 +126,21 @@ fun SignUpScreen(navController: NavController) {
                     modifier = Modifier.padding(vertical = 10.dp)
                 )
 
-               ContactInfoCard(isOtpSent = isOTPSent, isOtpVerified = isOTPVerified)
+               ContactInfoCard(
+                   isOtpSent = isOTPSent,
+                   isOtpVerified = isOTPVerified,
+                   loginViewModel = loginViewModel
+               )
                 AnimatedVisibility(visible = isOTPVerified.value) {
                     Column {
-                        BusinessDetailsCard()
+                        BusinessDetailsCard(loginViewModel = loginViewModel)
                         //product capacities
-                        UploadIdentityProofCard()
+                        UploadIdentityProofCard(loginViewModel = loginViewModel)
 
                         Button(
                             onClick = {
-
+                                loginViewModel.uploadDataToFireStore()
+                                navController.navigate(Screens.SignInScreen.route)
                             },
                             modifier = Modifier
                                 .fillMaxWidth()

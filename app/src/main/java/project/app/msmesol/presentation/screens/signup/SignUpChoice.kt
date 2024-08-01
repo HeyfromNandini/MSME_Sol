@@ -82,11 +82,16 @@ fun SignUpChoice(navController: NavController) {
 
 
 @Composable
-fun MyButton(navController: NavController, text: String, destination: String) {
+fun MyButton(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    text: String,
+    destination: String,
+) {
     Button(
         onClick = { navController.navigate(destination) },
 //        colors = androidx.compose.material3.ButtonDefaults.buttonColors(PrimaryBlue),
-        modifier = Modifier
+        modifier = modifier
             .padding(vertical = 10.dp)
             .width(150.dp)
     ) {
