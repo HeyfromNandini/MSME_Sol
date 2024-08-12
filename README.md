@@ -30,6 +30,24 @@ To further enhance the security, transparency, and efficiency of our platform, X
 
 - **Immutable Transaction Records:** All transactions on Xpress are recorded on the Aptos blockchain, providing an immutable, transparent, and easily auditable history of all deals made on the platform.
 
+## Leveraging Aptos for Xpress
+
+- **Move Smart Contracts**: Automate transactions, escrow, and dispute resolution with secure and efficient smart contracts.
+- **High Throughput**: Support large volumes of transactions, crucial for a busy B2B marketplace.
+- **Security**: Protect user funds and data with Aptos' robust security features.
+- **Decentralized Identity**: Implement secure identity verification for MSMEs and buyers.
+- **Tokenization**: Enable fractional ownership and trading through tokenized assets.
+- **Supply Chain Transparency**: Track product origin and movement on the blockchain.
+- **Smart Escrow**: Use smart contracts to hold payments until order fulfillment.
+- **DeFi Integration**: Offer financial services like lending and borrowing within the platform.
+
+- **Use Cases**:
+  - **Tokenization**: Fractional ownership of MSME shares or products.
+  - **Smart Escrow**: Secure transactions until delivery.
+  - **Supply Chain**: Blockchain for tracking product origin.
+  - **DeFi**: Lending and borrowing for MSMEs.
+  
+
 ### Tech Stack for Web3
 
 - **Blockchain Platform:** [Aptos](https://aptos.dev/) - For decentralized identity verification, smart contracts, and transaction records.
@@ -42,10 +60,6 @@ To further enhance the security, transparency, and efficiency of our platform, X
 
 - **Frontend:** Jetpack Compose (Android) & SwiftUI (iOS) for building a responsive and intuitive user interface that interacts with Web3 components.
 
----
-
-This markdown description outlines the core aspects of your app and how it integrates Web3 through Aptos, making it clear, concise, and tech-forward.
-Empower your business, expand your market reach, and streamline your operations with Xpress.
 
 - 🌐  **Global Market Access**: Seamlessly connect with buyers and sellers worldwide.
 - 💳  **Secure Transactions**: Ensure safe and reliable payments with advance payment options.
@@ -64,22 +78,6 @@ __________________
 3. 🌍 **Global Marketplace** - Access a vast network of domestic and international buyers.
 4. 💼 **Bidding & Contracts** - Engage in competitive bidding and finalize contracts securely.
 
-## Leveraging Aptos for Xpress
-
-- **Move Smart Contracts**: Automate transactions, escrow, and dispute resolution with secure and efficient smart contracts.
-- **High Throughput**: Support large volumes of transactions, crucial for a busy B2B marketplace.
-- **Security**: Protect user funds and data with Aptos' robust security features.
-- **Decentralized Identity**: Implement secure identity verification for MSMEs and buyers.
-- **Tokenization**: Enable fractional ownership and trading through tokenized assets.
-- **Supply Chain Transparency**: Track product origin and movement on the blockchain.
-- **Smart Escrow**: Use smart contracts to hold payments until order fulfillment.
-- **DeFi Integration**: Offer financial services like lending and borrowing within the platform.
-
-- **Use Cases**:
-  - **Tokenization**: Fractional ownership of MSME shares or products.
-  - **Smart Escrow**: Secure transactions until delivery.
-  - **Supply Chain**: Blockchain for tracking product origin.
-  - **DeFi**: Lending and borrowing for MSMEs.
 
 ## Let's Have a Look
 
