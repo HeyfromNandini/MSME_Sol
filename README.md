@@ -15,6 +15,36 @@
 **Available only for Android.**
 
 ### Xpress is a transformative B2B marketplace designed to connect MSMEs with buyers globally. 
+
+**Xpress** is a groundbreaking B2B eCommerce platform designed to empower MSMEs by bridging the gap between local artisans and global buyers. Our platform streamlines the process of connecting verified MSMEs with bulk buyers, ensuring secure, transparent, and efficient transactions. By addressing key challenges like delayed payments, limited marketplace access, and complex onboarding, Xpress offers a seamless experience for both sellers and buyers. Our commitment to financial security, global reach, and transparency makes Xpress the ultimate gateway for businesses looking to expand their market presence.
+
+### Web3 Integration with Aptos
+
+To further enhance the security, transparency, and efficiency of our platform, Xpress leverages **Aptos**, a cutting-edge Layer 1 blockchain, as part of our Web3 integration. Aptos provides a highly scalable, secure, and user-friendly environment, making it ideal for facilitating decentralized applications (dApps) within our ecosystem. Here's how we utilize Aptos in Xpress:
+
+- **Decentralized Identity Verification:** Aptos helps in securely verifying the identities of MSMEs and buyers through decentralized identity management, ensuring authenticity and reducing the risk of fraud.
+  
+- **Smart Contracts for Bidding and Payments:** We use Aptos smart contracts to automate and secure the bidding process, ensuring that payments are made in advance and that both parties fulfill their contractual obligations.
+
+- **Tokenized Incentives:** Xpress uses Aptos to create tokenized incentives for both buyers and sellers. This promotes engagement and rewards users for active participation in the marketplace.
+
+- **Immutable Transaction Records:** All transactions on Xpress are recorded on the Aptos blockchain, providing an immutable, transparent, and easily auditable history of all deals made on the platform.
+
+### Tech Stack for Web3
+
+- **Blockchain Platform:** [Aptos](https://aptos.dev/) - For decentralized identity verification, smart contracts, and transaction records.
+  
+- **Smart Contracts:** Move - A resource-oriented programming language used to write secure and scalable smart contracts on the Aptos blockchain.
+
+- **Wallet Integration:** MetaMask or Aptos-compatible wallets for seamless transactions and management of digital assets within the Xpress ecosystem.
+
+- **Backend:** Node.js with Ktor for integrating Aptos-based smart contracts and managing decentralized application logic.
+
+- **Frontend:** Jetpack Compose (Android) & SwiftUI (iOS) for building a responsive and intuitive user interface that interacts with Web3 components.
+
+---
+
+This markdown description outlines the core aspects of your app and how it integrates Web3 through Aptos, making it clear, concise, and tech-forward.
 Empower your business, expand your market reach, and streamline your operations with Xpress.
 
 - 🌐  **Global Market Access**: Seamlessly connect with buyers and sellers worldwide.
@@ -26,13 +56,30 @@ Empower your business, expand your market reach, and streamline your operations 
 __________________
 > Demo Video Link: [Click here](https://drive.google.com/drive/folders/1JSsGOq1vH1mG0Gyw19a9nruHoszo_w03?usp=sharing)
 
-## Experience the Future of B2B
+## Experience the Future of B2B on Web3
 
 ## Features ✏️
 1. 🏢 **MSME Onboarding** - Simple and secure onboarding process for MSMEs with verification checks.
 2. 📦 **Product Catalog** - Create, manage, and update your product listings effortlessly.
 3. 🌍 **Global Marketplace** - Access a vast network of domestic and international buyers.
 4. 💼 **Bidding & Contracts** - Engage in competitive bidding and finalize contracts securely.
+
+## Leveraging Aptos for Xpress
+
+- **Move Smart Contracts**: Automate transactions, escrow, and dispute resolution with secure and efficient smart contracts.
+- **High Throughput**: Support large volumes of transactions, crucial for a busy B2B marketplace.
+- **Security**: Protect user funds and data with Aptos' robust security features.
+- **Decentralized Identity**: Implement secure identity verification for MSMEs and buyers.
+- **Tokenization**: Enable fractional ownership and trading through tokenized assets.
+- **Supply Chain Transparency**: Track product origin and movement on the blockchain.
+- **Smart Escrow**: Use smart contracts to hold payments until order fulfillment.
+- **DeFi Integration**: Offer financial services like lending and borrowing within the platform.
+
+- **Use Cases**:
+  - **Tokenization**: Fractional ownership of MSME shares or products.
+  - **Smart Escrow**: Secure transactions until delivery.
+  - **Supply Chain**: Blockchain for tracking product origin.
+  - **DeFi**: Lending and borrowing for MSMEs.
 
 ## Let's Have a Look
 
@@ -47,38 +94,7 @@ __________________
 </p>
 
 
-| Core Features    |
-|--------------------------|
-| 1. Onboarding          |
-| 2. Product Catalog     |
-| 3. Global Marketplace  |
-| 4. Bidding & Contracts |
 
-### Tech Stack
-| Name | Description |
-| --- | --- |
-| [`@kotlin`](https://kotlinlang.org/) | Kotlin |
-| [`@jetpack-compose`](https://developer.android.com/jetpack/compose) | Jetpack Compose |
-| [`@firebase`](https://firebase.google.com/) | Firebase |
-| [`@pinecone`](https://www.pinecone.io/) | Pinecone |
-| [`@ktor-client`](https://ktor.io/docs/create-client.html) | Ktor Client |
-| [`@materialUI`](https://m3.material.io/) | Material 3 |
-| [`@navigation-compose`](https://developer.android.com/jetpack/compose/navigation) | Navigation Compose |
-| [`@coil`](https://coil-kt.github.io/coil/compose/) | Coil-Compose |
-| [`@room`](https://developer.android.com/training/data-storage/room) | Room Database |
-| [`@dagger-hilt`](https://developer.android.com/training/dependency-injection/hilt-android) | Dagger-Hilt |
-
-## Steps To Run on your Device
-- The project was built using `AGP 8.1.0`.
-- Check your Android Studio's AGP version.
-- If it is `lower` than the given AGP, follow these steps:
-   - #### Go to gradle/libs.version.toml
-   - #### In [versions] change the value of AGP as per requirement
-
-## Steps To Install on your Device
-- Visit the following link: 
-- [Install Now](https://drive.google.com/drive/folders/yourlink?usp=sharing)
-- Minimum SDK `27` --> `Android version 8.1`
 
 ## Our Past Achievements
 
